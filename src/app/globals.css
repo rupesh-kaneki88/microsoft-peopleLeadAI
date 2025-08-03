@@ -45,6 +45,7 @@
 body {
   background-color: var(--color-background);
   color: var(--color-secondary);
+  overflow-x: hidden;
 }
 
 .font-primary {
