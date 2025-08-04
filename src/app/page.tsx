@@ -1,13 +1,13 @@
+'use client';
+
 import HeroSection from "../components/HeroSection";
-import ValuePropositions from "../components/ValuePropositions";
-import HowItWorks from "../components/HowItWorks";
+import React, { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
 
 export default function Home() {
   return (
     <main>
       <HeroSection />
-      <ValuePropositions />
-      <HowItWorks />
     </main>
   );
 }
