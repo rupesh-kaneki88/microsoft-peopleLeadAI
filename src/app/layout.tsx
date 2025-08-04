@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import { gsap } from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from "gsap/all";
+import ScrollToTop from "../components/ScrollToTop"; // Import the new component
+
+gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-helvetica-neue pt-16">
+      <body className="">
         <ThemeProvider>
+          <ScrollToTop />
           <Navbar />
           {children}
         </ThemeProvider>

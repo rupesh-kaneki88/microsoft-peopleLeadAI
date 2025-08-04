@@ -18,6 +18,7 @@ const HeroSection = () => {
   const subheadlineRef = useRef(null);
   const cta1Ref = useRef(null);
   const cta2Ref = useRef(null);
+  const scrollProgressRef = useRef(0); // Use useRef instead of useState
 
   useEffect(() => {
     // Initial animation for logo and text
@@ -45,10 +46,13 @@ const HeroSection = () => {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=3500", // Adjust this value to control scroll duration of the animation
+        end: "+=2500", // Adjust this value to control scroll duration of the animation
         scrub: true,
         pin: true,
         anticipatePin: 1,
+        onUpdate: (self) => {
+          scrollProgressRef.current = self.progress; // Update ref directly
+        },
       },
     });
 
@@ -74,7 +78,7 @@ const HeroSection = () => {
       className="relative flex flex-col justify-center items-center min-h-screen text-center p-8"
       style={{ color: 'var(--color-secondary)' }}
     >
-      <ThreeDBackground />
+      <ThreeDBackground scrollProgressRef={scrollProgressRef} /> {/* Pass the ref */}
       <div className="relative z-10">
         <Image
           ref={logoRef}
@@ -86,7 +90,7 @@ const HeroSection = () => {
         />
         <p
           ref={subheadlineRef}
-          className="text-2xl mb-8"
+          className="text-lg md:text-2xl mb-8"
           style={{ fontFamily: 'var(--font-helvetica-neue)' }}
         >
           Helping individuals and organizations harness the power of AI to enhance human potential.
@@ -94,7 +98,7 @@ const HeroSection = () => {
         <div>
           <button
             ref={cta1Ref}
-            className="text-xl py-3 px-8 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700"
+            className="text-xl py-3 px-8 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700 mb-4 lg:mb-0"
             style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)', fontFamily: 'var(--font-helvetica-neue)' }}
           >
             Get Started

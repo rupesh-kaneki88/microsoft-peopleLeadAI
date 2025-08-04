@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
-const ThreeDBackground = () => {
+const ThreeDBackground = ({ scrollProgressRef }: { scrollProgressRef: React.MutableRefObject<number> }) => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,12 +39,32 @@ const ThreeDBackground = () => {
 
     camera.position.z = 2; // Original camera position
 
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1; // Normalize to -1 to +1
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1; // Normalize to -1 to +1, invert Y
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
     // Animation
     const animate = () => {
       requestAnimationFrame(animate);
 
+      // Subtle rotation for particles
       particlesMesh.rotation.x += 0.0005;
       particlesMesh.rotation.y += 0.0008;
+
+      // Camera movement based on mouse position
+      camera.position.x += (mouseX * 0.1 - camera.position.x) * 0.05; // Damping effect
+      camera.position.y += (mouseY * 0.1 - camera.position.y) * 0.05; // Damping effect
+
+      // Zoom effect based on scroll progress
+      camera.position.z = 2 - (scrollProgressRef.current * 1.5); // Adjust zoom depth as needed
+
+      camera.lookAt(scene.position); // Keep camera looking at the center
 
       renderer.render(scene, camera);
     };
@@ -63,14 +83,16 @@ const ThreeDBackground = () => {
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove); // Clean up mousemove listener
       if (currentMount && renderer.domElement) {
         currentMount.removeChild(renderer.domElement);
         renderer.dispose();
       }
     };
-  }, []);
+  }, []); // Removed scrollProgress from dependency array
 
   return <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -2 }} />;
 };
+
 
 export default ThreeDBackground;
