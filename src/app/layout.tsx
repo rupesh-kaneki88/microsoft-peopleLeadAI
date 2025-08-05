@@ -7,6 +7,7 @@ import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from "gsap/all";
 import ScrollToTop from "../components/ScrollToTop"; // Import the new component
+import Footer from "@/components/Footer";
 
 gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
 
@@ -40,6 +41,7 @@ export default function RootLayout({
           <ScrollToTop />
           <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

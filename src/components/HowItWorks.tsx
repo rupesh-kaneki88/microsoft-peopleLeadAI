@@ -59,7 +59,7 @@ const HowItWorks: React.FC = () => {
     cards.forEach((card, index) => {
       tl.to(card, { y: 0, opacity: 1, ease: 'power2.inOut', duration: 2 }, `card${index}`);
       if (index > 0) {
-        tl.to(cards[index - 1], { scale: 0.9, opacity: 0.7, y: -50, ease: 'power2.inOut', duration: 2 }, `card${index}`);
+        tl.to(cards[index - 1], { scale: 0.9, opacity: 0, y: -50, ease: 'power2.inOut', duration: 2 }, `card${index}`);
       }
     });
 
@@ -77,7 +77,7 @@ const HowItWorks: React.FC = () => {
       <div className="max-w-6xl mx-auto text-center">
         <h2
           ref={titleRef}
-          className="text-5xl font-bold mb-4 md:mt-16 text-[var(--color-primary)] font-secondary bg-[var(--color-background)] py-4 z-10"
+          className="text-4xl md:text-6xl font-bold mb-2 md:mt-16 text-[var(--color-primary)] font-secondary bg-[var(--color-background)] py-4 z-10"
         >
           How It Works
         </h2>
@@ -87,20 +87,23 @@ const HowItWorks: React.FC = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="relative p-6 rounded-xl shadow-2xl bg-gray-900 text-white mx-auto overflow-hidden"
+              className="relative p-6 rounded-xl shadow-2xl bg-gradient-to-r from-[#16161A] from-20% to-transparent text-white mx-auto overflow-hidden"
             >
-              <img
-                src={step.svg}
-                alt={`${step.title} icon`}
-                className="absolute top-4 left-4 w-10 h-10"
-              />
+              
               <img
                 src={step.svg}
                 alt={`${step.title} icon`}
                 className="absolute bottom-0 right-0 w-40 h-40 opacity-10"
               />
-              <div className="relative z-10 text-left pl-16">
-                <h3 className="text-3xl font-semibold mb-4 font-primary">{step.title}</h3>
+              <div className="relative z-10 text-left">
+                <div className="bg-[#16161A] p-3 inline-block rounded-md border border-gray-500 mb-4">
+                  <img
+                    src={step.svg}
+                    alt={`${step.title} icon`}
+                    className="w-10 h-10"
+                  />
+                </div>
+                <h3 className="text-3xl font-semibold mb-2 font-primary">{step.title}</h3>
                 <p className="text-gray-400 font-perfectly-nineties-italic text-sm md:text-lg">{step.description}</p>
               </div>
             </div>
@@ -118,22 +121,24 @@ const HowItWorks: React.FC = () => {
               ref={(el) => {
                 cardsRef.current[index] = el;
               }}
-              className="absolute p-12 rounded-xl shadow-2xl bg-gray-900 text-white max-w-3xl mx-auto overflow-hidden"
+              className="absolute p-12 rounded-xl shadow-2xl min-h-[300px] bg-gradient-to-r from-[#16161A] from-40% to-transparent text-white max-w-4xl mx-auto overflow-hidden"
               style={{ willChange: 'transform, opacity' }}
             >
-              <img
-                src={step.svg}
-                alt={`${step.title} icon`}
-                className="absolute top-6 left-6 w-12 h-12"
-              />
+              
               <img
                 src={step.svg}
                 alt={`${step.title} icon`}
                 className="absolute bottom-0 right-0 w-48 h-48 opacity-10"
               />
-
-              <div className="relative z-10 text-left pl-16">
-                <h3 className="text-4xl font-semibold mb-6 font-primary">{step.title}</h3>
+              <div className="relative z-10 text-left">
+                <div className="bg-[#16171A] p-4 inline-block rounded-md border border-gray-500 mb-6">
+                  <img
+                    src={step.svg}
+                    alt={`${step.title} icon`}
+                    className="w-12 h-12"
+                  />
+                </div>
+                <h3 className="text-3xl md:text-4xl font-semibold mb-4 font-primary">{step.title}</h3>
                 <p className="text-gray-400 font-helvetica-neue text-xl">{step.description}</p>
               </div>
             </div>

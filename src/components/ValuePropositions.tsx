@@ -65,7 +65,7 @@ const ValuePropositions: React.FC = () => {
   return (
     <section ref={sectionRef} className="relative py-8 md:py-16 px-4 bg-[var(--color-background)] text-[var(--color-primary)] overflow-hidden" aria-labelledby="value-propositions-heading">
       <div className="max-w-6xl mx-auto text-center mb-4 md:mb-12">
-        <h2 id="value-propositions-heading" className="text-4xl font-bold text-[var(--color-primary)] font-secondary">Our Value Propositions</h2>
+        <h2 id="value-propositions-heading" className="text-4xl md:text-6xl font-bold text-[var(--color-primary)] font-secondary">Our Value Propositions</h2>
       </div>
 
       <div className="relative flex justify-center">
