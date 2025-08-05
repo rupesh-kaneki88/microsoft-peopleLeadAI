@@ -17,12 +17,20 @@ const HeroSection = () => {
   const logoRef = useRef<HTMLImageElement | null>(null);
   const subheadlineRef = useRef(null);
   const cta1Ref = useRef(null);
+  const cta1TextRef = useRef<HTMLSpanElement | null>(null);
+  const cta1HoverTextRef = useRef(null);
   const cta2Ref = useRef(null);
+  const cta2TextRef = useRef<HTMLSpanElement | null>(null);
+  const cta2HoverTextRef = useRef(null);
   const scrollProgressRef = useRef(0); // Use useRef instead of useState
 
   useEffect(() => {
     // Initial animation for logo and text
     gsap.to(logoRef.current, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+
+    const endValue = window.innerWidth >= 768
+    ? "+=2500"
+    : `+=${window.innerHeight * 1.5}`;
 
     if (subheadlineRef.current) {
       const splitText = new SplitText(subheadlineRef.current, { type: "words,chars" });
@@ -46,9 +54,10 @@ const HeroSection = () => {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=2500", // Adjust this value to control scroll duration of the animation
+        end: endValue, // Adjusted to allow scrolling past the hero section
         scrub: true,
         pin: true,
+        // markers: true,
         anticipatePin: 1,
         onUpdate: (self) => {
           scrollProgressRef.current = self.progress; // Update ref directly
@@ -71,6 +80,20 @@ const HeroSection = () => {
     }, 0); // Start at the beginning of the timeline
 
   }, []);
+
+  const handleMouseEnter = (textRef: React.RefObject<HTMLSpanElement | null>, hoverTextRef: React.RefObject<HTMLSpanElement | null>) => {
+    if (textRef.current && hoverTextRef.current) {
+      gsap.to(textRef.current, { y: -20, opacity: 0, duration: 0.3, ease: "power2.out" });
+      gsap.fromTo(hoverTextRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
+    }
+  };
+
+  const handleMouseLeave = (textRef: React.RefObject<HTMLSpanElement | null>, hoverTextRef: React.RefObject<HTMLSpanElement | null>) => {
+    if (textRef.current && hoverTextRef.current) {
+      gsap.to(textRef.current, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
+      gsap.to(hoverTextRef.current, { y: 20, opacity: 0, duration: 0.3, ease: "power2.out" });
+    }
+  };
 
   return (
     <section
@@ -98,17 +121,23 @@ const HeroSection = () => {
         <div>
           <button
             ref={cta1Ref}
-            className="text-xl py-3 px-8 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700 mb-4 lg:mb-0"
+            className="text-lg md:text-xl py-6 md:py-7 px-20 md:px-22 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700 mb-4 lg:mb-0 relative overflow-hidden"
             style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)', fontFamily: 'var(--font-helvetica-neue)' }}
+            onMouseEnter={() => handleMouseEnter(cta1TextRef, cta1HoverTextRef)}
+            onMouseLeave={() => handleMouseLeave(cta1TextRef, cta1HoverTextRef)}
           >
-            Get Started
+            <span ref={cta1TextRef} className="absolute inset-0 flex items-center justify-center" aria-hidden="true">Get Started</span>
+            <span ref={cta1HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0">Get Started</span>
           </button>
           <button
             ref={cta2Ref}
-            className="text-xl py-3 px-8 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700"
+            className="text-lg md:text-xl py-6 md:py-7 px-20 md:px-22 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700 relative overflow-hidden"
             style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)', fontFamily: 'var(--font-helvetica-neue)' }}
+            onMouseEnter={() => handleMouseEnter(cta2TextRef, cta2HoverTextRef)}
+            onMouseLeave={() => handleMouseLeave(cta2TextRef, cta2HoverTextRef)}
           >
-            Explore Services
+            <span ref={cta2TextRef} className="absolute inset-0 flex items-center justify-center" aria-hidden="true">Explore Services</span>
+            <span ref={cta2HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0">Explore Services</span>
           </button>
         </div>
       </div>

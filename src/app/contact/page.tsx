@@ -19,7 +19,7 @@ const ContactPage: React.FC = () => {
             <a href="mailto:contact@peoplelead.ai" className="text-[var(--color-primary)] hover:underline">Email Us</a>
           </p>
           <p className="text-lg font-helvetica-neue">
-            <a href="#" className="text-[var(--color-primary)] hover:underline">Sign Up for Our Newsletter</a>
+            <button type="button" className="text-[var(--color-primary)] hover:underline">Sign Up for Our Newsletter</button>
           </p>
         </div>
 

@@ -25,7 +25,7 @@ const ServicesPage: React.FC = () => {
   ];
 
   return (
-    <main className="min-h-screen py-16 px-4 bg-[var(--color-background)] text-[var(--color-secondary)]">
+    <main className="min-h-screen py-16 px-4 mt-4 md:mt-8 bg-[var(--color-background)] text-[var(--color-secondary)]">
       <section className="max-w-6xl mx-auto text-center mb-16">
         <h1 className="text-5xl font-bold mb-6 text-[var(--color-primary)] font-secondary">Our Services</h1>
         <p className="text-xl font-helvetica-neue">

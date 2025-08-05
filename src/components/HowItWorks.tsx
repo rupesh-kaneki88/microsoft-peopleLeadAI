@@ -72,7 +72,7 @@ const HowItWorks: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="md:py-6 px-4 bg-[var(--color-background)] text-[var(--color-secondary)]"
+      className="md:py-6 px-4 pb-6 bg-[var(--color-background)] text-[var(--color-secondary)]"
     >
       <div className="max-w-6xl mx-auto text-center">
         <h2
@@ -96,7 +96,7 @@ const HowItWorks: React.FC = () => {
               />
               <img
                 src={step.svg}
-                alt=""
+                alt={`${step.title} icon`}
                 className="absolute bottom-0 right-0 w-40 h-40 opacity-10"
               />
               <div className="relative z-10 text-left pl-16">
@@ -128,7 +128,7 @@ const HowItWorks: React.FC = () => {
               />
               <img
                 src={step.svg}
-                alt=""
+                alt={`${step.title} icon`}
                 className="absolute bottom-0 right-0 w-48 h-48 opacity-10"
               />
 

@@ -123,7 +123,7 @@ const ParticleEffect: React.FC<ParticleEffectProps> = ({ isActive }) => {
     }
   }, [isActive]);
 
-  return <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }} />;
+  return <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }} aria-hidden="true" />;
 };
 
 export default ParticleEffect;

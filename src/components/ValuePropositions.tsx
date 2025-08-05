@@ -110,7 +110,7 @@ const ValuePropositions: React.FC = () => {
                   <>
                     <div className="w-1/2 p-4 flex items-center justify-end">
                       <div className="flex items-center">
-                        <img src={prop.image} alt="" className="w-24 h-24" />
+                        <img src={prop.image} alt={`${prop.image} icon`} className="w-24 h-24" />
                         <span className="text-5xl font-bold ml-4 text-gray-400">{index + 1}.</span>
                       </div>
                     </div>
@@ -129,7 +129,7 @@ const ValuePropositions: React.FC = () => {
                 <div className="bg-[var(--color-background)] p-6 rounded-lg shadow-lg">
                   <div className="flex items-center mb-4">
                     <span className="text-3xl font-bold mr-4 text-gray-400">{index + 1}.</span>
-                    <img src={prop.image} alt="" className="w-16 h-16 mr-4" />
+                    <img src={prop.image} alt={`${prop.image} icon`} className="w-16 h-16 mr-4" />
                     <h3 className="text-xl font-semibold font-primary text-[var(--color-secondary)]">{prop.title}</h3>
                   </div>
                   <p className="font-helvetica-neue text-gray-400">{prop.description}</p>
