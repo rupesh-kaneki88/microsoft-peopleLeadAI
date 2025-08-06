@@ -15,8 +15,8 @@ const navItems: NavItem[] = [
   { name: 'Home', href: '/' }, // Added Home link
   { name: 'Services', href: '/services' },
   { name: 'About', href: '/about' },
-  { name: 'Resources', href: '/resources' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Resources', href: '/notFound1' },
+  { name: 'Contact', href: '/notFound2' },
 ];
 
 const Navbar: React.FC = () => {

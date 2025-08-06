@@ -25,33 +25,49 @@ const HeroSection = () => {
   const scrollProgressRef = useRef(0); // Use useRef instead of useState
 
   useEffect(() => {
-    // Initial animation for logo and text
-    gsap.to(logoRef.current, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+    const ctx = gsap.context(() => {
+      // Initial animation for logo and text
+      gsap.to(logoRef.current, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
 
-    const endValue = window.innerWidth >= 768
-    ? "+=2500"
-    : `+=${window.innerHeight * 1.5}`;
+      const endValue = window.innerWidth >= 768
+      ? "+=2500"
+      : `+=${window.innerHeight * 1.5}`;
 
-    if (subheadlineRef.current) {
-      const splitText = new SplitText(subheadlineRef.current, { type: "words,chars" });
-      gsap.set(splitText.chars, { opacity: 0, y: 20, rotationX: -90 });
-      gsap.to(splitText.chars, {
-        opacity: 1,
-        y: 0,
-        rotationX: 0,
-        stagger: 0.02,
-        duration: 0.8,
-        ease: "power3.out",
-        delay: 0.2,
-      });
-    }
+      if (subheadlineRef.current) {
+        const splitText = new SplitText(subheadlineRef.current, { type: "words,chars" });
+        gsap.set(splitText.chars, { opacity: 0, y: 20, rotationX: -90 });
+        gsap.to(splitText.chars, {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          stagger: 0.02,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.2,
+        });
+      }
 
-    gsap.set([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 20 });
-    gsap.to([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 0, duration: 0.8, delay: 0.6, ease: "power3.out", stagger: 0.1 });
+      gsap.set([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 20 });
+      gsap.to([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 0, duration: 0.8, delay: 0.6, ease: "power3.out", stagger: 0.1 });
 
-    // ScrollTrigger animation
-    const tl = gsap.timeline({
-      scrollTrigger: {
+      // ScrollTrigger animation
+      const tl = gsap.timeline();
+
+      tl.to(logoRef.current, {
+        scale: 10, // Adjust scale as needed for zoom effect
+        y: () => window.innerHeight / 2 - (logoRef.current ? logoRef.current.offsetHeight / 2 : 0), // Center logo vertically
+        x: () => window.innerWidth / 2 - (logoRef.current ? logoRef.current.offsetWidth / 2 : 0), // Center logo horizontally
+        opacity: 0, // Fade out logo
+        ease: "power1.inOut",
+        pointerEvents: "none", // Disable pointer events
+      }, 0) // Start at the beginning of the timeline
+      .to([subheadlineRef.current, cta1Ref.current, cta2Ref.current], {
+        opacity: 0,
+        y: 100,
+        ease: "power1.out",
+      }, 0); // Start at the beginning of the timeline
+
+      ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
         end: endValue, // Adjusted to allow scrolling past the hero section
@@ -62,23 +78,11 @@ const HeroSection = () => {
         onUpdate: (self) => {
           scrollProgressRef.current = self.progress; // Update ref directly
         },
-      },
-    });
+        animation: tl, // Associate the timeline with this ScrollTrigger
+      });
+    }, sectionRef);
 
-    tl.to(logoRef.current, {
-      scale: 10, // Adjust scale as needed for zoom effect
-      y: () => window.innerHeight / 2 - (logoRef.current ? logoRef.current.offsetHeight / 2 : 0), // Center logo vertically
-      x: () => window.innerWidth / 2 - (logoRef.current ? logoRef.current.offsetWidth / 2 : 0), // Center logo horizontally
-      opacity: 0, // Fade out logo
-      ease: "power1.inOut",
-      pointerEvents: "none", // Disable pointer events
-    }, 0) // Start at the beginning of the timeline
-    .to([subheadlineRef.current, cta1Ref.current, cta2Ref.current], {
-      opacity: 0,
-      y: 100,
-      ease: "power1.out",
-    }, 0); // Start at the beginning of the timeline
-
+    return () => ctx.revert();
   }, []);
 
   const handleMouseEnter = (textRef: React.RefObject<HTMLSpanElement | null>, hoverTextRef: React.RefObject<HTMLSpanElement | null>) => {
@@ -113,8 +117,8 @@ const HeroSection = () => {
         />
         <p
           ref={subheadlineRef}
-          className="text-lg md:text-2xl mb-8"
-          style={{ fontFamily: 'var(--font-helvetica-neue)' }}
+          className="text-lg md:text-2xl mb-8 font-primary"
+          // style={{ fontFamily: 'font-primary' }}
         >
           Helping individuals and organizations harness the power of AI to enhance human potential.
         </p>

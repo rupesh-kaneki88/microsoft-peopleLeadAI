@@ -43,16 +43,7 @@ const HowItWorks: React.FC = () => {
 
     gsap.set(cards, { y: '100vh', opacity: 0 });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: () => `+=${cards.length * 800}`,
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
-      },
-    });
+    const tl = gsap.timeline();
 
     tl.to(title, { y: 0, duration: 0.1 });
 
@@ -61,6 +52,16 @@ const HowItWorks: React.FC = () => {
       if (index > 0) {
         tl.to(cards[index - 1], { scale: 0.9, opacity: 0, y: -50, ease: 'power2.inOut', duration: 2 }, `card${index}`);
       }
+    });
+
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: () => `+=${cards.length * 800}`,
+      scrub: true,
+      pin: true,
+      anticipatePin: 1,
+      animation: tl, // Associate the timeline with this ScrollTrigger
     });
 
     return () => {
@@ -77,7 +78,7 @@ const HowItWorks: React.FC = () => {
       <div className="max-w-6xl mx-auto text-center">
         <h2
           ref={titleRef}
-          className="text-4xl md:text-6xl font-bold mb-2 md:mt-16 text-[var(--color-primary)] font-secondary bg-[var(--color-background)] py-4 z-10"
+          className="text-4xl md:text-6xl font-bold mb-2 md:mt-16 text-[var(--color-primary)] font-primary bg-[var(--color-background)] py-4 z-10"
         >
           How It Works
         </h2>
@@ -138,8 +139,8 @@ const HowItWorks: React.FC = () => {
                     className="w-12 h-12"
                   />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-semibold mb-4 font-primary">{step.title}</h3>
-                <p className="text-gray-400 font-helvetica-neue text-xl">{step.description}</p>
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-wide mb-4 font-secondary">{step.title}</h3>
+                <p className="text-gray-400 font-helvetica-neue tracking-wide text-xl">{step.description}</p>
               </div>
             </div>
           ))}
