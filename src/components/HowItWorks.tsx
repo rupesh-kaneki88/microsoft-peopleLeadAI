@@ -65,8 +65,8 @@ const HowItWorks: React.FC = () => {
     });
 
     return () => {
+      st.kill();
       tl.kill();
-      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
 
