@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 
 import { ThemeProvider } from "../providers/theme-provider";
 
+import { LoadingProvider } from '@/providers/LoadingProvider';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,10 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <body className="">
         <ThemeProvider>
-          <ScrollToTop />
-          <Navbar />
-          {children}
-          <Footer />
+          <LoadingProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </LoadingProvider>
         </ThemeProvider>
       </body>
     </html>

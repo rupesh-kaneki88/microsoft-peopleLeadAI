@@ -95,3 +95,65 @@ body {
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+.will-change-transform {
+  will-change: transform, opacity;
+}
+
+.content-link.active {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.content-link {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.content-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  transition: background-color 0.3s;
+}
+
+.content-link.active::before {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.content-item:hover .content-title {
+  color: black;
+}
+
+.animated-gradient-text {
+  background: linear-gradient(
+    -45deg,
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+} 

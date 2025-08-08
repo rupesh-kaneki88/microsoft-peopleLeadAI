@@ -160,13 +160,13 @@ const AboutPage: React.FC = () => {
           <img
             src={section.svg1}
             alt={`${section.svg1Desc}`}
-            className="absolute bottom-0 right-4 w-80 h-80 opacity-10"
+            className="absolute bottom-0 right-0 md:right-4 w-60 md:w-80 h-50 md:h-80 opacity-10"
           />
           {/* top icon */}
           <img
             src={section.svg2}
             alt={`${section.svg2Desc} icon`}
-            className="w-60 h-60 mt-24 opacity-20 ml-2 md:ml-8"
+            className="w-40 md:w-60 h-40 md:h-60 mt-20 md:mt-24 opacity-10 ml-2 md:ml-8"
           />
         </section>
       ))}

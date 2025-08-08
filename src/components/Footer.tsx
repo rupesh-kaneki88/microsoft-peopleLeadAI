@@ -26,8 +26,8 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-black text-white mb-8">
-      <div className="max-w-6xl mx-auto flex flex-col items-center">
+    <footer className="bg-black text-white mb-4 border-t">
+      <div className="max-w-6xl mx-auto flex flex-col mt-4 items-center">
         <div className="mb-4">
           <Image src="/PeopleLead-AI-Logo-1.png" alt="PeopleLead AI Logo" width={150} height={50} />
         </div>

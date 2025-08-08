@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { usePathname } from 'next/navigation';
+import { useLoading } from '@/providers/LoadingProvider';
 
 interface NavItem {
   name: string;
@@ -12,26 +13,27 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Home', href: '/' }, // Added Home link
+  { name: 'Home', href: '/' },
   { name: 'Services', href: '/services' },
   { name: 'About', href: '/about' },
-  { name: 'Resources', href: '/notFound1' },
-  { name: 'Contact', href: '/notFound2' },
+  { name: 'Resources', href: '/resources' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { showLoading, hideLoading } = useLoading();
 
-  // Using Maps to store refs dynamically for desktop and mobile links
+  useEffect(() => {
+    hideLoading();
+  }, [pathname, hideLoading]);
+
   const desktopTextRefs = useRef<Map<string, HTMLSpanElement | null>>(new Map());
   const desktopHoverTextRefs = useRef<Map<string, HTMLSpanElement | null>>(new Map());
   const mobileTextRefs = useRef<Map<string, HTMLSpanElement | null>>(new Map());
   const mobileHoverTextRefs = useRef<Map<string, HTMLSpanElement | null>>(new Map());
-
-  // Ref for mobile menu container
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  // Refs for hamburger icon paths
   const line1Ref = useRef<SVGPathElement | null>(null);
   const line2Ref = useRef<SVGPathElement | null>(null);
   const line3Ref = useRef<SVGPathElement | null>(null);
@@ -54,7 +56,6 @@ const Navbar: React.FC = () => {
     }
   };
 
-  // Animation for mobile menu slide-in/out
   useEffect(() => {
     if (mobileMenuRef.current) {
       if (isMobileMenuOpen) {
@@ -65,7 +66,6 @@ const Navbar: React.FC = () => {
     }
   }, [isMobileMenuOpen]);
 
-  // Animation for hamburger to cross
   useEffect(() => {
     if (line1Ref.current && line2Ref.current && line3Ref.current) {
       if (isMobileMenuOpen) {
@@ -80,7 +80,6 @@ const Navbar: React.FC = () => {
     }
   }, [isMobileMenuOpen]);
 
-  // Close mobile menu on route change
   useEffect(() => {
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
@@ -90,11 +89,8 @@ const Navbar: React.FC = () => {
   const renderNavLink = (item: NavItem, isMobile: boolean) => {
     const textRefMap = isMobile ? mobileTextRefs : desktopTextRefs;
     const hoverTextRefMap = isMobile ? mobileHoverTextRefs : desktopHoverTextRefs;
-    
-    // Determine active link styling
-    const isActive = pathname === item.href || (item.href === '/' && pathname === '/');
+    const isActive = pathname === item.href;
     const activeColorClass = isActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-secondary)]';
-
     const linkClasses = `relative overflow-hidden ${activeColorClass} hover:text-[var(--color-primary)] transition-colors duration-300 font-helvetica-neue ${isMobile ? 'text-xl py-2 w-full flex items-center justify-center' : 'py-4 px-10 inline-flex items-center justify-center'}`;
 
     return (
@@ -104,7 +100,14 @@ const Navbar: React.FC = () => {
         className={linkClasses}
         onMouseEnter={() => handleMouseEnter(textRefMap, hoverTextRefMap, item.href)}
         onMouseLeave={() => handleMouseLeave(textRefMap, hoverTextRefMap, item.href)}
-        onClick={() => isMobile && setIsMobileMenuOpen(false)}
+        onClick={() => {
+          if (pathname !== item.href) {
+            showLoading();
+          }
+          if (isMobile) {
+            setIsMobileMenuOpen(false);
+          }
+        }}
       >
         <span ref={el => { textRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center" aria-hidden="true">{item.name}</span>
         <span ref={el => { hoverTextRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0">{item.name}</span>
@@ -115,7 +118,11 @@ const Navbar: React.FC = () => {
   return (
     <nav role="navigation" className="fixed top-0 left-0 w-full z-50 p-4 bg-[var(--color-background)] bg-opacity-80 backdrop-blur-sm shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center" onClick={() => {
+          if (pathname !== '/') {
+            showLoading();
+          }
+        }}>
           <Image
             src="/PeopleLead-AI-Logo-1.png"
             alt="PeopleLead-AI Logo"
@@ -125,12 +132,10 @@ const Navbar: React.FC = () => {
           />
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-4">
           {navItems.map(item => renderNavLink(item, false))}
         </div>
 
-        {/* Mobile Menu Button (outside the sliding menu) */}
         <button
           className="md:hidden text-[var(--color-secondary)] focus:outline-none z-50"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -169,7 +174,6 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       <div
         ref={mobileMenuRef}
         id="mobile-menu"
@@ -180,7 +184,6 @@ const Navbar: React.FC = () => {
           {navItems.map(item => renderNavLink(item, true))}
         </div>
 
-        {/* Mobile Menu Footer Links */}
         <div className="absolute bottom-0 w-full p-4 text-center">
           <p className="text-[var(--color-secondary)] text-sm">
             <Link href="/privacy" className="hover:underline">Privacy Policy</Link> | <Link href="/terms" className="hover:underline">Terms of Service</Link>
