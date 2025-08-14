@@ -109,14 +109,14 @@ const Navbar: React.FC = () => {
           }
         }}
       >
-        <span ref={el => { textRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center" aria-hidden="true">{item.name}</span>
-        <span ref={el => { hoverTextRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0">{item.name}</span>
+        <span ref={el => { textRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center">{item.name}</span>
+        <span ref={el => { hoverTextRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0" aria-hidden="true">{item.name}</span>
       </Link>
     );
   };
 
   return (
-    <nav role="navigation" className="fixed top-0 left-0 w-full z-50 p-4 bg-[var(--color-background)] bg-opacity-80 backdrop-blur-sm shadow-md">
+    <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-[var(--color-background)] bg-opacity-80 backdrop-blur-sm shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center" onClick={() => {
           if (pathname !== '/') {
@@ -186,7 +186,7 @@ const Navbar: React.FC = () => {
 
         <div className="absolute bottom-0 w-full p-4 text-center">
           <p className="text-[var(--color-secondary)] text-sm">
-            <Link href="/privacy" className="hover:underline">Privacy Policy</Link> | <Link href="/terms" className="hover:underline">Terms of Service</Link>
+            <Link href="https://www.microsoft.com/en-us/privacy/privacystatement" className="hover:underline">Privacy Statement</Link> | <Link href="https://www.microsoft.com/en-us/legal/terms-of-use" className="hover:underline">Terms</Link>
           </p>
         </div>
       </div>

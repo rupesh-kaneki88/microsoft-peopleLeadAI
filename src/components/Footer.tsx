@@ -29,27 +29,29 @@ const Footer: React.FC = () => {
     <footer className="bg-black text-white mb-4 border-t">
       <div className="max-w-6xl mx-auto flex flex-col mt-4 items-center">
         <div className="mb-4">
-          <Image src="/PeopleLead-AI-Logo-1.png" alt="PeopleLead AI Logo" width={150} height={50} />
+          <Link href="/">
+            <Image src="/PeopleLead-AI-Logo-1.png" alt="PeopleLead AI Logo" width={150} height={50} />
+          </Link>
         </div>
-        <div className="flex items-center font-helvetica-neue  text-[var(--color-primary)]">
+        <div className="flex items-center justify-center font-helvetica-neue  text-[var(--color-primary)]">
           <Link
-            href="/terms-and-conditions"
+            href="https://www.microsoft.com/en-us/legal/terms-of-use"
             className="relative overflow-hidden text-lg py-2 px-4 cursor-pointer mx-2"
             onMouseEnter={() => handleMouseEnter(termsTextRef, termsHoverTextRef)}
             onMouseLeave={() => handleMouseLeave(termsTextRef, termsHoverTextRef)}
           >
-            <span ref={termsTextRef} className="flex items-center justify-center">Terms & Conditions</span>
-            <span ref={termsHoverTextRef} className="absolute inset-0 flex items-center justify-center opacity-0">Terms & Conditions</span>
+            <span ref={termsTextRef} className="flex items-center justify-center pl-20">Terms</span>
+            <span ref={termsHoverTextRef} className="absolute inset-0 flex items-center justify-center opacity-0 pl-20" aria-hidden="true">Terms</span>
           </Link>
           <span className="mx-2">|</span>
           <Link
-            href="/privacy-policy"
+            href="https://www.microsoft.com/en-us/privacy/privacystatement"
             className="relative overflow-hidden text-lg py-2 px-4 cursor-pointer mx-2"
             onMouseEnter={() => handleMouseEnter(privacyTextRef, privacyHoverTextRef)}
             onMouseLeave={() => handleMouseLeave(privacyTextRef, privacyHoverTextRef)}
           >
-            <span ref={privacyTextRef} className="flex items-center justify-center">Privacy Policy</span>
-            <span ref={privacyHoverTextRef} className="absolute inset-0 flex items-center justify-center opacity-0">Privacy Policy</span>
+            <span ref={privacyTextRef} className="flex items-center justify-center">Privacy Statement</span>
+            <span ref={privacyHoverTextRef} className="absolute inset-0 flex items-center justify-center opacity-0" aria-hidden="true">Privacy Statement</span>
           </Link>
         </div>
       </div>

@@ -37,6 +37,8 @@ const ValuePropositions: React.FC = () => {
 
       propositions.forEach((_, i) => {
         const card = cardsRef.current[i];
+        if (!card) return;
+
         gsap.fromTo(card, { opacity: 0.3 }, {
           opacity: 1, x: 0, ease: 'power4.inOut',
           scrollTrigger: {
@@ -44,11 +46,22 @@ const ValuePropositions: React.FC = () => {
           }
         });
 
+        const focusIn = () => setActiveIndex(i);
+        const focusOut = () => setActiveIndex(null);
+
+        card.addEventListener('focus', focusIn);
+        card.addEventListener('blur', focusOut);
+
         ScrollTrigger.create({
           trigger: card, start: 'top center', end: 'bottom center',
           onEnter: () => setActiveIndex(i), onEnterBack: () => setActiveIndex(i),
           onLeave: () => setActiveIndex(null), onLeaveBack: () => setActiveIndex(null),
         });
+
+        return () => {
+            card.removeEventListener('focus', focusIn);
+            card.removeEventListener('blur', focusOut);
+        }
       });
     });
 
@@ -88,6 +101,7 @@ const ValuePropositions: React.FC = () => {
               key={index}
               ref={(el) => { cardsRef.current[index] = el; }}
               className="relative flex flex-col md:flex-row items-center my-4 md:my-12 md:my-0" role="listitem"
+              tabIndex={0}
             >
               {/* Desktop Layout */}
               <div className="hidden md:flex w-full items-center my-12">
@@ -102,7 +116,7 @@ const ValuePropositions: React.FC = () => {
                     <div className="w-1/2 p-4 flex items-center justify-start">
                       <div className="flex items-center">
                         <span className="text-5xl font-bold mr-4 text-gray-400">{index + 1}.</span>
-                        <img src={prop.image} alt={`${prop.image} icon`} className="w-24 h-24" />
+                        <img src={prop.image} alt={`${prop.image} icon`} className="w-24 h-24" aria-hidden="true" />
                       </div>
                     </div>
                   </>
@@ -110,7 +124,7 @@ const ValuePropositions: React.FC = () => {
                   <>
                     <div className="w-1/2 p-4 flex items-center justify-end">
                       <div className="flex items-center">
-                        <img src={prop.image} alt={`${prop.image} icon`} className="w-24 h-24" />
+                        <img src={prop.image} alt={`${prop.image} icon`} className="w-24 h-24" aria-hidden="true" />
                         <span className="text-5xl font-bold ml-4 text-gray-400">{index + 1}.</span>
                       </div>
                     </div>
@@ -129,7 +143,7 @@ const ValuePropositions: React.FC = () => {
                 <div className="bg-[var(--color-background)] p-6 rounded-lg shadow-lg">
                   <div className="flex items-center mb-4">
                     <span className="text-3xl font-bold mr-4 text-gray-400">{index + 1}.</span>
-                    <img src={prop.image} alt={`${prop.image} icon`} className="w-16 h-16 mr-4" />
+                    <img src={prop.image} alt={`${prop.image} icon`} className="w-16 h-16 mr-4" aria-hidden="true" />
                     <h3 className="text-2xl font-semibold font-secondary tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
                   </div>
                   <p className="font-helvetica-neue text-lg text-gray-400">{prop.description}</p>

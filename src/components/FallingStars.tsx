@@ -64,7 +64,7 @@ const FallingStars: React.FC = () => {
     };
   }, []);
 
-  return <div ref={containerRef} className="absolute top-0 left-0 w-full h-full overflow-hidden z-0" />;
+  return <div ref={containerRef} className="absolute top-0 left-0 w-full h-full overflow-hidden z-0" aria-hidden="true" />;
 };
 
 export default FallingStars;

@@ -42,6 +42,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading }) => {
       ref={containerRef}
       className="fixed inset-0 z-[200] flex items-center justify-center bg-black bg-opacity-80"
       style={{ display: isLoading ? 'flex' : 'none' }}
+      aria-live="polite"
+      aria-busy={isLoading}
     >
       <FallingStars />
       <h1

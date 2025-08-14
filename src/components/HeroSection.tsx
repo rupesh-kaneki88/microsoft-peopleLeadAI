@@ -31,7 +31,7 @@ const HeroSection = () => {
       gsap.to(logoRef.current, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
 
       const endValue = window.innerWidth >= 768
-      ? "+=2500"
+      ? "+=800"
       : `+=${window.innerHeight * 1.5}`;
 
       if (subheadlineRef.current) {
@@ -126,8 +126,8 @@ const HeroSection = () => {
               onMouseLeave={() => handleMouseLeave(cta1TextRef, cta1HoverTextRef)}
               onClick={showLoading}
             >
-              <span ref={cta1TextRef} className="absolute inset-0 flex items-center justify-center" aria-hidden="true">Get Started</span>
-              <span ref={cta1HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0">Get Started</span>
+              <span ref={cta1TextRef} className="absolute inset-0 flex items-center justify-center">Get Started</span>
+              <span ref={cta1HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0" aria-hidden="true">Get Started</span>
             </button>
           </Link>
           <Link href="/services">
@@ -139,8 +139,8 @@ const HeroSection = () => {
               onMouseLeave={() => handleMouseLeave(cta2TextRef, cta2HoverTextRef)}
               onClick={showLoading}
             >
-              <span ref={cta2TextRef} className="absolute inset-0 flex items-center justify-center" aria-hidden="true">Explore Services</span>
-              <span ref={cta2HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0">Explore Services</span>
+              <span ref={cta2TextRef} className="absolute inset-0 flex items-center justify-center">Explore Services</span>
+              <span ref={cta2HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0" aria-hidden="true">Explore Services</span>
             </button>
           </Link>
         </div>

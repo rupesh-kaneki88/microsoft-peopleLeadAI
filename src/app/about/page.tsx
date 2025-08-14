@@ -24,7 +24,7 @@ const AboutPage: React.FC = () => {
       svg1: '/rocket.svg',
       svg1Desc: 'rocket icon',
       svg2: '/planet.svg',
-      svg2Desc: 'planed icon',
+      svg2Desc: 'planet icon',
     },
     {
       id: 'what-we-believe',
@@ -161,12 +161,14 @@ const AboutPage: React.FC = () => {
             src={section.svg1}
             alt={`${section.svg1Desc}`}
             className="absolute bottom-0 right-0 md:right-4 w-60 md:w-80 h-50 md:h-80 opacity-10"
+            aria-hidden="true"
           />
           {/* top icon */}
           <img
             src={section.svg2}
             alt={`${section.svg2Desc} icon`}
             className="w-40 md:w-60 h-40 md:h-60 mt-20 md:mt-24 opacity-10 ml-2 md:ml-8"
+            aria-hidden="true"
           />
         </section>
       ))}

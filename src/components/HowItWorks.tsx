@@ -95,6 +95,7 @@ const HowItWorks: React.FC = () => {
                 src={step.svg}
                 alt={`${step.title} icon`}
                 className="absolute bottom-0 right-0 w-40 h-40 opacity-10"
+                aria-hidden="true"
               />
               <div className="relative z-10 text-left">
                 <div className="bg-[#16161A] p-3 inline-block rounded-md border border-gray-500 mb-4">
@@ -102,10 +103,11 @@ const HowItWorks: React.FC = () => {
                     src={step.svg}
                     alt={`${step.title} icon`}
                     className="w-10 h-10"
+                    aria-hidden="true"
                   />
                 </div>
-                <h3 className="text-3xl font-semibold mb-2 font-primary">{step.title}</h3>
-                <p className="text-gray-400 font-perfectly-nineties-italic text-sm md:text-lg">{step.description}</p>
+                <h3 className="text-3xl font-semibold mb-2 font-secondary">{step.title}</h3>
+                <p className="text-gray-400 font-helvetica-neue text-sm md:text-lg">{step.description}</p>
               </div>
             </div>
           ))}
@@ -115,6 +117,7 @@ const HowItWorks: React.FC = () => {
         <div
           ref={cardsContainerRef}
           className="relative h-[70vh] hidden md:flex items-center justify-center"
+          role="list"
         >
           {steps.map((step, index) => (
             <div
@@ -124,12 +127,14 @@ const HowItWorks: React.FC = () => {
               }}
               className="absolute p-12 rounded-xl shadow-2xl min-h-[300px] bg-gradient-to-r from-[#16161A] from-40% to-transparent text-white max-w-4xl mx-auto overflow-hidden"
               style={{ willChange: 'transform, opacity' }}
+              role="listitem"
             >
               
               <img
                 src={step.svg}
                 alt={`${step.title} icon`}
                 className="absolute bottom-0 right-0 w-48 h-48 opacity-10"
+                aria-hidden="true"
               />
               <div className="relative z-10 text-left">
                 <div className="bg-[#16171A] p-4 inline-block rounded-md border border-gray-500 mb-6">
@@ -137,6 +142,7 @@ const HowItWorks: React.FC = () => {
                     src={step.svg}
                     alt={`${step.title} icon`}
                     className="w-12 h-12"
+                    aria-hidden="true"
                   />
                 </div>
                 <h3 className="text-3xl md:text-4xl font-semibold tracking-wide mb-4 font-secondary">{step.title}</h3>

@@ -108,9 +108,9 @@ const ServicesPage: React.FC = () => {
       className="min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24 mx-4 md:mx-8 mt-24 md:mt-28"
     >
       <section className="max-w-6xl mx-auto text-center mb-16">
-        <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center">
-          {"Our Services".split('').map((char, index) => (
-            <span key={index} className="relative inline-block overflow-hidden h-[1.2em]"> {/* Adjust h-[] based on line-height */} 
+        <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Services">
+          {"Services".split('').map((char, index) => (
+            <span key={index} className="relative inline-block overflow-hidden h-[1.2em]" aria-hidden="true"> 
               <span className="char-initial inline-block">{char}</span>
               <span className="char-incoming absolute inset-0 inline-block opacity-0 transform translate-y-full">{char}</span>
             </span>
@@ -139,13 +139,14 @@ const ServicesPage: React.FC = () => {
                   src={service.svg}
                   alt={`${service.title} icon`}
                   className="absolute bottom-4 right-4 w-32 h-32 opacity-15 transition-opacity duration-500 group-hover:opacity-24"
+                  aria-hidden="true"
                 />
                 
                 <div className="relative z-10">
-                  <h2 className="text-2xl font-semibold mb-4 text-white font-perfectly-nineties text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-white font-secondary text-center">
                     {service.title}
                   </h2>
-                  <p className="font-neue-montreal text-center text-gray-300 opacity-90">
+                  <p className="font-helvetica-neue text-lg md:text-xl text-center text-gray-300 opacity-90">
                     {service.description}
                   </p>
                 </div>

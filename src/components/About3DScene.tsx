@@ -107,7 +107,7 @@ const About3DScene: React.FC<About3DSceneProps> = ({ cameraZ }) => {
     }
   }, [cameraZ]);
 
-  return <div ref={mountRef} className="w-full h-screen fixed top-0 left-0 z-0" />;
+  return <div ref={mountRef} className="w-full h-screen fixed top-0 left-0 z-0" aria-hidden="true" />;
 };
 
 export default About3DScene;
