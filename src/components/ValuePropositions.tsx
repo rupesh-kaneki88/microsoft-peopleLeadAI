@@ -76,9 +76,9 @@ const ValuePropositions: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-8 md:py-16 px-4 bg-[var(--color-background)] text-[var(--color-primary)] overflow-hidden" aria-labelledby="value-propositions-heading">
+    <section ref={sectionRef} className="relative py-8 md:py-16 px-4 md:px-18 bg-[var(--color-background)] text-[var(--color-primary)] overflow-hidden" aria-labelledby="value-propositions-heading">
       <div className="max-w-6xl mx-auto text-center mb-4 md:mb-12">
-        <h2 id="value-propositions-heading" className="text-4xl md:text-6xl font-bold text-[var(--color-primary)] font-primary">Our Value Propositions</h2>
+        <h2 id="value-propositions-heading" className="text-5xl md:text-7xl font-bold text-[var(--color-primary)] font-primary">Our Value Propositions</h2>
       </div>
 
       <div className="relative flex justify-center">
@@ -107,10 +107,10 @@ const ValuePropositions: React.FC = () => {
               <div className="hidden md:flex w-full items-center my-12">
                 {index % 2 === 0 ? (
                   <>
-                    <div className="w-1/2 p-4 pr-8 text-right">
+                    <div className="w-1/2 p-2 pr-8 text-right">
                       <div className="bg-[var(--color-background)] p-6 rounded-lg shadow-lg">
-                        <h3 className="text-2xl md:text-4xl font-semibold mb-2 tracking-wide font-secondary text-[var(--color-secondary)]">{prop.title}</h3>
-                        <p className="font-helvetica-neue text-lg md:text-xl text-gray-400">{prop.description}</p>
+                        <h3 className="text-3xl md:text-5xl font-semibold mb-2 tracking-wide font-urbanist text-[var(--color-secondary)]">{prop.title}</h3>
+                        <p className="font-urbanist text-lg md:text-2xl text-gray-400">{prop.description}</p>
                       </div>
                     </div>
                     <div className="w-1/2 p-4 flex items-center justify-start">
@@ -128,10 +128,10 @@ const ValuePropositions: React.FC = () => {
                         <span className="text-5xl font-bold ml-4 text-gray-400">{index + 1}.</span>
                       </div>
                     </div>
-                    <div className="w-1/2 p-4 pl-8 text-left">
+                    <div className="w-1/2 p-2 pl-8 text-left">
                       <div className="bg-[var(--color-background)] p-6 rounded-lg shadow-lg">
-                        <h3 className="text-2xl md:text-4xl font-semibold mb-2 font-secondary tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
-                        <p className="font-helvetica-neue text-lg md:text-xl text-gray-400">{prop.description}</p>
+                        <h3 className="text-3xl md:text-5xl font-semibold mb-2 font-urbanist tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
+                        <p className="font-urbanist text-lg md:text-2xl text-gray-400">{prop.description}</p>
                       </div>
                     </div>
                   </>
@@ -144,9 +144,9 @@ const ValuePropositions: React.FC = () => {
                   <div className="flex items-center mb-4">
                     <span className="text-3xl font-bold mr-4 text-gray-400">{index + 1}.</span>
                     <img src={prop.image} alt={`${prop.image} icon`} className="w-16 h-16 mr-4" aria-hidden="true" />
-                    <h3 className="text-2xl font-semibold font-secondary tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
+                    <h3 className="text-2xl font-semibold font-urbanist tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
                   </div>
-                  <p className="font-helvetica-neue text-lg text-gray-400">{prop.description}</p>
+                  <p className="font-urbanist text-lg text-gray-400">{prop.description}</p>
                 </div>
               </div>
             </div>

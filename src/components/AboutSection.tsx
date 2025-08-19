@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AboutPage: React.FC = () => {
+const AboutSection: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const textRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -54,7 +54,7 @@ const AboutPage: React.FC = () => {
     },
   ];
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!mainRef.current) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -99,7 +99,7 @@ const AboutPage: React.FC = () => {
   }, []);
 
   return (
-    <main
+    <section
       ref={mainRef}
       className="relative w-full h-screen overflow-hidden mb-4 md:mb-8"
       role="main"
@@ -119,10 +119,10 @@ const AboutPage: React.FC = () => {
               role="region"
               aria-labelledby={`section-title-${index}`}
             >
-              
+
               <h2
                 id={`section-title-${index}`}
-                className="text-4xl md:text-6xl font-bold mb-6 font-primary leading-tight"
+                className="text-5xl md:text-7xl font-bold mb-6 font-primary leading-tight"
                 style={{
                   color: `${section.titleColor}`,
                   // textShadow: section.textColor === '#fff' ? '0 2px 10px rgba(0,0,0,0.3)' : 'none'
@@ -131,14 +131,14 @@ const AboutPage: React.FC = () => {
                 {section.title}
               </h2>
               <p
-                className="text-lg md:text-2xl leading-relaxed font-helvetica-neue"
+                className="text-xl md:text-3xl leading-relaxed font-urbanist"
                 style={{
                   color: section.textColor === '#fff' ? 'rgba(255,255,255,0.9)' : '#444'
                 }}
               >
                 {section.description}
               </p>
-                
+
             </div>
           ))}
         </div>
@@ -172,8 +172,8 @@ const AboutPage: React.FC = () => {
           />
         </section>
       ))}
-    </main>
+    </section>
   );
 };
 
-export default AboutPage;
+export default AboutSection;

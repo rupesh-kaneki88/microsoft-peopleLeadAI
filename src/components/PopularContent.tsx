@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -35,7 +35,7 @@ const PopularContent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<{ file: string; title: string; image: string } | null>(null);
 
-  useLayoutEffect(()=> {
+  useEffect(()=> {
     if (!titleRef.current) return;
 
     const tlTitle = gsap.timeline();
@@ -97,7 +97,7 @@ const PopularContent: React.FC = () => {
     <main ref={containerRef} className="w-full min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24  md:mx-8 mt-24 md:mt-28">
 
       <section className="max-w-6xl mx-auto text-center mb-16">
-        <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Resources">
+        <h1 ref={titleRef} className="text-5xl md:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Resources">
           {"Resources".split('').map((char, index) => (
             <span key={index} className="relative inline-block overflow-hidden h-[1.2em]" aria-hidden="true"> 
               <span className="char-initial inline-block">{char}</span>
@@ -105,13 +105,13 @@ const PopularContent: React.FC = () => {
             </span>
           ))}
         </h1>
-        <p className="text-2xl md:text-3xl leading-relaxed font-helvetica-neue-ultralight text-gray-300 max-w-3xl mx-auto">
+        <p className="text-3xl md:text-4xl leading-relaxed font-urbanist font-thin text-gray-300 max-w-3xl mx-auto">
           Explore tools, guides, and insights designed to help you lead with people and move faster with AI.
         </p>
       </section>
 
       <section className="max-w-6xl mx-auto text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-[var(--color-primary)] font-primary text-center">Popular Content</h2>
+        <h2 className="text-4xl md:text-5xl font-bold mb-8 text-[var(--color-primary)] font-primary text-center">Popular Content</h2>
         <div className="border-t border-[var(--color-secondary)] px-4">
           {popularContentData.map((item, index) => (
             <a
@@ -125,7 +125,7 @@ const PopularContent: React.FC = () => {
               <div
                 className="content-item relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--color-secondary)] py-8 md:py-14 w-full max-w-6xl px-4"
               >
-                <h3 className="content-title text-base sm:text-lg md:text-2xl text-center md:text-left font-helvetica-neue break-words w-full">
+                <h3 className="content-title text-base sm:text-xl md:text-3xl text-center md:text-left font-urbanist break-words w-full">
                   {item.title}
                 </h3>
                 <div
@@ -133,7 +133,7 @@ const PopularContent: React.FC = () => {
                   style={{ transform: 'translateY(-50%) translateX(10%) rotate(-5deg)' }}
                   aria-hidden="true"
                 >
-                  <Image src={item.image} alt={item.title} width={120} height={120} />
+                  <Image src={item.image} alt={item.title} width={120} height={120} className='opacity-76' />
                 </div>
               </div>
             </a>

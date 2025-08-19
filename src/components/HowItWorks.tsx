@@ -78,7 +78,7 @@ const HowItWorks: React.FC = () => {
       <div className="max-w-6xl mx-auto text-center">
         <h2
           ref={titleRef}
-          className="text-4xl md:text-6xl font-bold mb-2 md:mt-16 text-[var(--color-primary)] font-primary bg-[var(--color-background)] py-4 z-10"
+          className="text-5xl md:text-7xl font-bold mb-2 md:mt-16 text-[var(--color-primary)] font-primary bg-[var(--color-background)] py-4 z-10"
         >
           How It Works
         </h2>
@@ -106,8 +106,8 @@ const HowItWorks: React.FC = () => {
                     aria-hidden="true"
                   />
                 </div>
-                <h3 className="text-3xl font-semibold mb-2 font-secondary">{step.title}</h3>
-                <p className="text-gray-400 font-helvetica-neue text-sm md:text-lg">{step.description}</p>
+                <h3 className="text-3xl font-semibold mb-2 font-urbanist">{step.title}</h3>
+                <p className="text-gray-400 font-urbanist text-lg md:text-lg">{step.description}</p>
               </div>
             </div>
           ))}
@@ -145,8 +145,8 @@ const HowItWorks: React.FC = () => {
                     aria-hidden="true"
                   />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-semibold tracking-wide mb-4 font-secondary">{step.title}</h3>
-                <p className="text-gray-400 font-helvetica-neue tracking-wide text-xl">{step.description}</p>
+                <h3 className="text-3xl md:text-5xl font-semibold tracking-wide mb-4 font-urbanist">{step.title}</h3>
+                <p className="text-gray-400 font-urbanist tracking-wide text-2xl">{step.description}</p>
               </div>
             </div>
           ))}

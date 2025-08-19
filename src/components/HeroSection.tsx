@@ -7,10 +7,11 @@ import ThreeDBackground from './ThreeDBackground';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'; // Add this line
 import Link from 'next/link';
 import { useLoading } from '@/providers/LoadingProvider';
 
-gsap.registerPlugin(SplitText, ScrollTrigger);
+gsap.registerPlugin(SplitText, ScrollTrigger, ScrollToPlugin);
 
 const HeroSection = () => {
   const theme = useTheme();
@@ -30,10 +31,6 @@ const HeroSection = () => {
     const ctx = gsap.context(() => {
       gsap.to(logoRef.current, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
 
-      const endValue = window.innerWidth >= 768
-      ? "+=800"
-      : `+=${window.innerHeight * 1.5}`;
-
       if (subheadlineRef.current) {
         const splitText = new SplitText(subheadlineRef.current, { type: "words,chars" });
         gsap.set(splitText.chars, { opacity: 0, y: 20, rotationX: -90 });
@@ -50,32 +47,6 @@ const HeroSection = () => {
 
       gsap.set([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 20 });
       gsap.to([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 0, duration: 0.8, delay: 0.6, ease: "power3.out", stagger: 0.1 });
-
-      const tl = gsap.timeline();
-
-      tl.to(logoRef.current, {
-        scale: 4,
-        opacity: 0.1,
-        ease: "none",
-      }, 0)
-      .to([subheadlineRef.current, cta1Ref.current, cta2Ref.current], {
-        opacity: 0,
-        y: 100,
-        ease: "power1.out",
-      }, 0);
-
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: endValue,
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          scrollProgressRef.current = self.progress;
-        },
-        animation: tl,
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -98,7 +69,7 @@ const HeroSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col justify-center items-center min-h-screen text-center p-8"
+      className="relative flex flex-col justify-center items-center min-h-screen text-center p-8 "
       style={{ color: 'var(--color-secondary)' }}
     >
       <ThreeDBackground scrollProgressRef={scrollProgressRef} />
@@ -112,7 +83,7 @@ const HeroSection = () => {
         </h1>
         <p
           ref={subheadlineRef}
-          className="text-lg md:text-2xl mb-8 font-primary"
+          className="text-xl md:text-3xl mb-8 font-urbanist font-base md:mx-88"
         >
           Helping individuals and organizations harness the power of AI to enhance human potential.
         </p>
@@ -120,8 +91,8 @@ const HeroSection = () => {
           <Link href="/contact">
             <button
               ref={cta1Ref}
-              className="text-lg md:text-xl py-6 md:py-7 px-20 md:px-22 rounded-md cursor-pointer mx-4 transition-colors duration-300 hover:bg-blue-700 mb-4 lg:mb-0 relative overflow-hidden"
-              style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)', fontFamily: 'var(--font-helvetica-neue)' }}
+              className="text-lg md:text-xl py-6 md:py-7 px-20 md:px-22 rounded-md cursor-pointer font-urbanist mx-4 transition-colors duration-300 hover:bg-blue-700 mb-4 lg:mb-0 relative overflow-hidden"
+              style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)' }}
               onMouseEnter={() => handleMouseEnter(cta1TextRef, cta1HoverTextRef)}
               onMouseLeave={() => handleMouseLeave(cta1TextRef, cta1HoverTextRef)}
               onClick={showLoading}
@@ -130,14 +101,27 @@ const HeroSection = () => {
               <span ref={cta1HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0" aria-hidden="true">Get Started</span>
             </button>
           </Link>
-          <Link href="/services">
+          <Link href="/#services">
             <button
               ref={cta2Ref}
-              className="text-lg md:text-xl py-6 md:py-7 px-20 md:px-22 rounded-md cursor-pointer mx-4 transition-colors border border-white duration-300 relative overflow-hidden"
-              style={{  color: 'var(--color-secondary)', fontFamily: 'var(--font-helvetica-neue)' }}
+              className="text-lg md:text-xl py-6 md:py-7 px-20 md:px-22 rounded-md cursor-pointer font-urbanist mx-4 transition-colors border border-white duration-300 relative overflow-hidden"
+              style={{  color: 'var(--color-secondary)' }}
               onMouseEnter={() => handleMouseEnter(cta2TextRef, cta2HoverTextRef)}
               onMouseLeave={() => handleMouseLeave(cta2TextRef, cta2HoverTextRef)}
-              onClick={showLoading}
+              onClick={(e) => {
+                e.preventDefault();
+                const element = document.getElementById('services');
+                if (element) {
+                  gsap.to(window, {
+                    duration: 0.3,
+                    scrollTo: {
+                      y: element.offsetTop,
+                      autoKill: false
+                    },
+                    ease: "power2.out"
+                  });
+                }
+              }}
             >
               <span ref={cta2TextRef} className="absolute inset-0 flex items-center justify-center">Explore Services</span>
               <span ref={cta2HoverTextRef} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0" aria-hidden="true">Explore Services</span>

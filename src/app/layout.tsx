@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/Navbar";
+import NavbarWrapper from "../components/NavbarWrapper"; // Changed import
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className="">
         <ThemeProvider>
           <LoadingProvider>
-            <Navbar />
+            <NavbarWrapper /> {/* Changed component */}
             {children}
             <Footer />
           </LoadingProvider>

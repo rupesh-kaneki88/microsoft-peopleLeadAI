@@ -4,6 +4,9 @@ import Link from 'next/link';
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'; // Import ScrollToPlugin
+
+gsap.registerPlugin(ScrollToPlugin); // Register it here
 import { usePathname } from 'next/navigation';
 import { useLoading } from '@/providers/LoadingProvider';
 
@@ -14,20 +17,25 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'Home', href: '/' },
-  { name: 'Services', href: '/services' },
-  { name: 'About', href: '/about' },
-  { name: 'Resources', href: '/resources' },
+  { name: 'Services', href: '/#services' },
+  { name: 'About', href: '/#about' },
+  { name: 'Resources', href: '/#resources' },
   { name: 'Contact', href: '/contact' },
 ];
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false); // New state for client-side check
   const pathname = usePathname();
   const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     hideLoading();
   }, [pathname, hideLoading]);
+
+  useEffect(() => {
+    setIsClient(true); // Set to true once component mounts on client
+  }, []);
 
   const desktopTextRefs = useRef<Map<string, HTMLSpanElement | null>>(new Map());
   const desktopHoverTextRefs = useRef<Map<string, HTMLSpanElement | null>>(new Map());
@@ -39,6 +47,7 @@ const Navbar: React.FC = () => {
   const line3Ref = useRef<SVGPathElement | null>(null);
 
   const handleMouseEnter = (textRefMap: React.MutableRefObject<Map<string, HTMLSpanElement | null>>, hoverTextRefMap: React.MutableRefObject<Map<string, HTMLSpanElement | null>>, href: string) => {
+    if (!isClient || window.innerWidth < 768) return; // Use isClient
     const textElement = textRefMap.current.get(href);
     const hoverTextElement = hoverTextRefMap.current.get(href);
     if (textElement && hoverTextElement) {
@@ -48,6 +57,7 @@ const Navbar: React.FC = () => {
   };
 
   const handleMouseLeave = (textRefMap: React.MutableRefObject<Map<string, HTMLSpanElement | null>>, hoverTextRefMap: React.MutableRefObject<Map<string, HTMLSpanElement | null>>, href: string) => {
+    if (!isClient || window.innerWidth < 768) return; // Use isClient
     const textElement = textRefMap.current.get(href);
     const hoverTextElement = hoverTextRefMap.current.get(href);
     if (textElement && hoverTextElement) {
@@ -86,12 +96,44 @@ const Navbar: React.FC = () => {
     }
   }, [pathname]);
 
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isMobile: boolean) => {
+    if (href.startsWith('/#')) {
+      e.preventDefault();
+      const id = href.substring(2);
+      const element = document.getElementById(id);
+      if (element) {
+        gsap.to(window, {
+          duration: 0.3, // "Little heavy" scroll duration
+          scrollTo: {
+            y: element.offsetTop,
+            autoKill: false
+          },
+          ease: "power2.out" // Smooth easing
+        });
+      }
+    } else if (href === '/') { // Handle Home link specifically
+      e.preventDefault();
+      gsap.to(window, {
+        scrollTo: {
+          y: 0, // Scroll to the very top
+          autoKill: false
+        },
+        ease: "none" // No easing for instant scroll
+      });
+    } else if (pathname !== href) { // Only show loading if navigating to a different page
+      showLoading();
+    }
+    if (isMobile) {
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   const renderNavLink = (item: NavItem, isMobile: boolean) => {
     const textRefMap = isMobile ? mobileTextRefs : desktopTextRefs;
     const hoverTextRefMap = isMobile ? mobileHoverTextRefs : desktopHoverTextRefs;
-    const isActive = pathname === item.href;
-    const activeColorClass = isActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-secondary)]';
-    const linkClasses = `relative overflow-hidden ${activeColorClass} hover:text-[var(--color-primary)] transition-colors duration-300 font-helvetica-neue ${isMobile ? 'text-xl py-2 w-full flex items-center justify-center' : 'py-4 px-10 inline-flex items-center justify-center'}`;
+    const isActive = isClient && (pathname === item.href || (item.href.startsWith('/#') && pathname === '/' && window.location.hash === item.href.substring(1))); // Use isClient
+    const activeColorClass = 'text-[var(--color-secondary)]';
+    const linkClasses = `relative overflow-hidden ${activeColorClass} hover:text-[var(--color-primary)] transition-colors duration-300 font-urbanist ${isMobile ? 'text-xl py-3 w-full flex items-center justify-center' : 'py-4 px-10 inline-flex items-center justify-center'}`;
 
     return (
       <Link
@@ -100,14 +142,7 @@ const Navbar: React.FC = () => {
         className={linkClasses}
         onMouseEnter={() => handleMouseEnter(textRefMap, hoverTextRefMap, item.href)}
         onMouseLeave={() => handleMouseLeave(textRefMap, hoverTextRefMap, item.href)}
-        onClick={() => {
-          if (pathname !== item.href) {
-            showLoading();
-          }
-          if (isMobile) {
-            setIsMobileMenuOpen(false);
-          }
-        }}
+        onClick={(e) => handleNavLinkClick(e, item.href, isMobile)}
       >
         <span ref={el => { textRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center">{item.name}</span>
         <span ref={el => { hoverTextRefMap.current.set(item.href, el); }} className="absolute inset-0 flex items-center justify-center translate-y-full opacity-0" aria-hidden="true">{item.name}</span>
@@ -116,13 +151,9 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-[var(--color-background)] bg-opacity-80 backdrop-blur-sm shadow-md">
+    <nav className="fixed top-4 left-1/2 w-[95%] sm:w-auto transform -translate-x-1/2 z-50 py-3 px-6 bg-[var(--color-background)] bg-transparent backdrop-blur-sm shadow-lg md:max-w-7xl rounded-lg border border-gray-800" >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center" onClick={() => {
-          if (pathname !== '/') {
-            showLoading();
-          }
-        }}>
+        <Link href="/" className="flex items-center" onClick={(e) => handleNavLinkClick(e, '/', false)}>
           <Image
             src="/PeopleLead-AI-Logo-1.png"
             alt="PeopleLead-AI Logo"
@@ -177,14 +208,14 @@ const Navbar: React.FC = () => {
       <div
         ref={mobileMenuRef}
         id="mobile-menu"
-        className={`fixed top-0 right-0 h-screen w-64 bg-[var(--color-background)] bg-opacity-95 backdrop-blur-sm shadow-lg transform translate-x-full md:hidden z-40`}
+        className={`fixed -top-4 -right-6 h-screen w-64 bg-[var(--color-background)] bg-opacity-70 backdrop-blur-md shadow-lg transform translate-x-full md:hidden z-40`}
         aria-hidden={!isMobileMenuOpen}
       >
         <div className="flex flex-col items-center space-y-8 pt-20">
           {navItems.map(item => renderNavLink(item, true))}
         </div>
 
-        <div className="absolute bottom-0 w-full p-4 text-center">
+        <div className="absolute bottom-4 w-full p-4 text-center font-urbanist">
           <p className="text-[var(--color-secondary)] text-sm">
             <Link href="https://www.microsoft.com/en-us/privacy/privacystatement" className="hover:underline">Privacy Statement</Link> | <Link href="https://www.microsoft.com/en-us/legal/terms-of-use" className="hover:underline">Terms</Link>
           </p>

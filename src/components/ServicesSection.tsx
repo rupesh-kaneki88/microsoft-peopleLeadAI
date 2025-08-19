@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ServicesPage: React.FC = () => {
+const ServicesSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!containerRef.current || !titleRef.current) return;
 
     const tlTitle = gsap.timeline();
@@ -60,7 +60,7 @@ const ServicesPage: React.FC = () => {
         const { left, top, width, height } = target.getBoundingClientRect();
         const x = (e.clientX - left - width / 2) / 25;
         const y = (e.clientY - top - height / 2) / 25;
-        gsap.to(card, { rotationY: x, rotationX: -y, ease: 'power3.out', duration: 0.5 });
+        gsap.to(card, { rotationY: x, rotationX: -y, ease: 'power3.out', duration: 0.5, transformZ: 0 });
       });
 
       card.addEventListener('mouseleave', () => {
@@ -103,12 +103,12 @@ const ServicesPage: React.FC = () => {
   ];
 
   return (
-    <main
+    <section
       ref={containerRef}
       className="min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24 mx-4 md:mx-8 mt-24 md:mt-28"
     >
       <section className="max-w-6xl mx-auto text-center mb-16">
-        <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Services">
+        <h1 ref={titleRef} className="text-5xl md:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Services">
           {"Services".split('').map((char, index) => (
             <span key={index} className="relative inline-block overflow-hidden h-[1.2em]" aria-hidden="true"> 
               <span className="char-initial inline-block">{char}</span>
@@ -116,7 +116,7 @@ const ServicesPage: React.FC = () => {
             </span>
           ))}
         </h1>
-          <p className="text-2xl md:text-3xl leading-relaxed font-helvetica-neue-ultralight text-gray-300 max-w-3xl mx-auto">
+          <p className="text-3xl md:text-4xl leading-relaxed font-urbanist font-thin text-gray-300 max-w-3xl mx-auto">
             Our services are designed to amplify what your people do best — with thoughtful, ethical, and effective AI.
           </p>
       </section>
@@ -138,15 +138,15 @@ const ServicesPage: React.FC = () => {
                 <img
                   src={service.svg}
                   alt={`${service.title} icon`}
-                  className="absolute bottom-4 right-4 w-32 h-32 opacity-15 transition-opacity duration-500 group-hover:opacity-24"
+                  className="absolute bottom-4 right-4 w-32 h-32 opacity-25 transition-opacity duration-500 group-hover:opacity-34"
                   aria-hidden="true"
                 />
                 
                 <div className="relative z-10">
-                  <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-white font-secondary text-center">
+                  <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-white font-urbanist text-left">
                     {service.title}
                   </h2>
-                  <p className="font-helvetica-neue text-lg md:text-xl text-center text-gray-300 opacity-90">
+                  <p className="font-urbanist text-lg md:text-2xl text-left text-gray-300 opacity-90">
                     {service.description}
                   </p>
                 </div>
@@ -155,8 +155,8 @@ const ServicesPage: React.FC = () => {
           ))}
         </div>
       </section>
-    </main>
+    </section>
   );
 };
 
-export default ServicesPage;
+export default ServicesSection;

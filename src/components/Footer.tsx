@@ -26,14 +26,14 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-black text-white mb-4 border-t">
+    <footer className="bg-black text-white mb-4 border-t border-gray-700">
       <div className="max-w-6xl mx-auto flex flex-col mt-4 items-center">
         <div className="mb-4">
           <Link href="/">
             <Image src="/PeopleLead-AI-Logo-1.png" alt="PeopleLead AI Logo" width={150} height={50} />
           </Link>
         </div>
-        <div className="flex items-center justify-center font-helvetica-neue  text-[var(--color-primary)]">
+        <div className="flex items-center justify-center font-urbanist  text-[var(--color-primary)]">
           <Link
             href="https://www.microsoft.com/en-us/legal/terms-of-use"
             className="relative overflow-hidden text-lg py-2 px-4 cursor-pointer mx-2"
