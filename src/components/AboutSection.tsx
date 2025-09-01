@@ -29,10 +29,10 @@ const AboutSection: React.FC = () => {
     {
       id: 'what-we-believe',
       title: 'What We Believe',
-      titleColor: 'var(--color-background)',
+      titleColor: 'var(--color-primary)',
       description:
         'AI should empower, not overshadow. People are at the center of every great solution.',
-        bg: 'var(--color-primary)',
+      bg: 'var(--color-background)',
       textColor: '#fff',
       svg1: '/people.svg',
       svg2: '/believe.svg',
@@ -45,8 +45,8 @@ const AboutSection: React.FC = () => {
       titleColor: 'var(--color-primary)',
       description:
         'We’re a team of AI consultants, designers, and strategists who believe technology works best when it supports people.',
-      bg: 'var(--color-secondary)',
-      textColor: '#000',
+      bg: 'var(--color-background)',
+      textColor: '#fff',
       svg1: '/team.svg',
       svg2: '/puzzle.svg',
       svg1Desc: 'team icon',
@@ -122,7 +122,7 @@ const AboutSection: React.FC = () => {
 
               <h2
                 id={`section-title-${index}`}
-                className="text-5xl md:text-7xl font-bold mb-6 font-primary leading-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-primary leading-tight"
                 style={{
                   color: `${section.titleColor}`,
                   // textShadow: section.textColor === '#fff' ? '0 2px 10px rgba(0,0,0,0.3)' : 'none'

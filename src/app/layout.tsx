@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 import { ThemeProvider } from "../providers/theme-provider";
 
 import { LoadingProvider } from '@/providers/LoadingProvider';
+import { Toaster } from 'sonner';
 
 export default function RootLayout({
   children,
@@ -33,6 +34,8 @@ export default function RootLayout({
             <NavbarWrapper /> {/* Changed component */}
             {children}
             <Footer />
+            <ScrollToTop />
+            <Toaster />
           </LoadingProvider>
         </ThemeProvider>
       </body>

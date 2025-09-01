@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const ValuePropositions: React.FC = () => {
   const propositions = [
     { title: 'Empower your people with AI', description: 'Leverage AI to augment human capabilities, not replace them.', image: '/ai-svgrepo-com.svg' },
-    { title: 'Built for inclusivity and impact', description: 'AI solutions designed with accessibility and ethical considerations at their core.', image: '/accessibility-svgrepo-com.svg' },
+    // { title: 'Built for inclusivity and impact', description: 'AI solutions designed with accessibility and ethical considerations at their core.', image: '/accessibility-svgrepo-com.svg' },
     { title: 'Trusted experts in AI strategy', description: 'Guidance from seasoned professionals to navigate your AI journey.', image: '/ai-trust-svgrepo-com.svg' },
     { title: 'Simple, actionable solutions', description: 'Practical AI implementations that deliver tangible results.', image: '/problem-process-solution-svgrepo-com.svg' },
   ];
@@ -78,7 +78,7 @@ const ValuePropositions: React.FC = () => {
   return (
     <section ref={sectionRef} className="relative py-8 md:py-16 px-4 md:px-18 bg-[var(--color-background)] text-[var(--color-primary)] overflow-hidden" aria-labelledby="value-propositions-heading">
       <div className="max-w-6xl mx-auto text-center mb-4 md:mb-12">
-        <h2 id="value-propositions-heading" className="text-5xl md:text-7xl font-bold text-[var(--color-primary)] font-primary">Our Value Propositions</h2>
+        <h2 id="value-propositions-heading" className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--color-primary)] font-primary">The PeopleLead.AI Advantage</h2>
       </div>
 
       <div className="relative flex justify-center">
@@ -104,12 +104,12 @@ const ValuePropositions: React.FC = () => {
               tabIndex={0}
             >
               {/* Desktop Layout */}
-              <div className="hidden md:flex w-full items-center my-12">
+              <div className="hidden md:flex w-full items-center my-8 lg:my-12">
                 {index % 2 === 0 ? (
                   <>
                     <div className="w-1/2 p-2 pr-8 text-right">
-                      <div className="bg-[var(--color-background)] p-6 rounded-lg shadow-lg">
-                        <h3 className="text-3xl md:text-5xl font-semibold mb-2 tracking-wide font-urbanist text-[var(--color-secondary)]">{prop.title}</h3>
+                      <div className="bg-[var(--color-background)] p-2 lg:p-6 rounded-lg shadow-lg">
+                        <h3 className="md:text-5xl lg:text-5xl font-semibold mb-2 tracking-wide font-urbanist text-[var(--color-secondary)]">{prop.title}</h3>
                         <p className="font-urbanist text-lg md:text-2xl text-gray-400">{prop.description}</p>
                       </div>
                     </div>
@@ -129,8 +129,8 @@ const ValuePropositions: React.FC = () => {
                       </div>
                     </div>
                     <div className="w-1/2 p-2 pl-8 text-left">
-                      <div className="bg-[var(--color-background)] p-6 rounded-lg shadow-lg">
-                        <h3 className="text-3xl md:text-5xl font-semibold mb-2 font-urbanist tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
+                      <div className="bg-[var(--color-background)] p-2 lg:p-6 rounded-lg shadow-lg">
+                        <h3 className="text-5xl lg:text-5xl font-semibold mb-2 font-urbanist tracking-wide text-[var(--color-secondary)]">{prop.title}</h3>
                         <p className="font-urbanist text-lg md:text-2xl text-gray-400">{prop.description}</p>
                       </div>
                     </div>

@@ -1,26 +1,22 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-interface ModalProps {
+interface DownloadModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (email: string) => void;
+  onConfirm: () => void;
   title: string;
   svg: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, svg }) => {
+const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose, onConfirm, title, svg }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       gsap.to(modalRef.current, { autoAlpha: 1, duration: 0.3 });
-      emailInputRef.current?.focus();
     } else {
       gsap.to(modalRef.current, { autoAlpha: 0, duration: 0.3 });
     }
@@ -50,23 +46,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, svg })
     }
   };
 
-  const handleConfirm = () => {
-    if (email) {
-      onConfirm(email);
-      setIsSubmitted(true);
-    }
-  };
-  
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setEmail('');
-      }, 300);
-    }
-  }, [isOpen]);
-
-
   if (!isOpen) return null;
 
   return (
@@ -87,18 +66,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, svg })
           aria-hidden="true"
         />
         <div className="relative z-10">
-          {!isSubmitted ? (
             <>
               <h2 id="modal-title" className="text-2xl md:text-3xl font-bold font-helvetica-neue mb-4 text-[var(--color-primary)]">{title}</h2>
-              <p id="modal-description" className="text-[var(--color-secondary)] font-helvetica-neue mb-6">Enter your email to download this file.</p>
-              <input
-                ref={emailInputRef}
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                className="w-full px-4 py-2 mb-4 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-              />
+              <p id="modal-description" className="text-[var(--color-secondary)] font-helvetica-neue mb-6"> Click the button below to download the file.</p>
               <div className="flex justify-end gap-4">
                 <button
                   onClick={onClose}
@@ -107,31 +77,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, svg })
                   Cancel
                 </button>
                 <button
-                  onClick={handleConfirm}
+                  onClick={onConfirm}
                   className="px-4 py-2 rounded-md bg-[var(--color-primary)] font-helvetica-neue text-white hover:bg-blue-700 transition-colors"
                 >
-                  Submit
+                  Download
                 </button>
               </div>
             </>
-          ) : (
-            <>
-              <h2 id="modal-title" className="text-2xl md:text-3xl font-bold font-helvetica-neue mb-4 text-[var(--color-primary)]">Check your inbox!</h2>
-              <p id="modal-description" className="text-[var(--color-secondary)] font-helvetica-neue mb-6">A verification link has been sent to <strong>{email}</strong>. Please check your email to download the file.</p>
-              <div className="flex justify-end gap-4">
-                <button
-                  onClick={onClose}
-                  className="px-4 py-2 rounded-md bg-[var(--color-primary)] text-white font-helvetica-neue hover:bg-blue-700 transition-colors"
-                >
-                  Close
-                </button>
-              </div>
-            </>
-          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Modal;
+export default DownloadModal;

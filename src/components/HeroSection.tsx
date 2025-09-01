@@ -69,21 +69,21 @@ const HeroSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col justify-center items-center min-h-screen text-center p-8 "
+      className="relative flex flex-col justify-center items-center min-h-screen text-center p-8"
       style={{ color: 'var(--color-secondary)' }}
     >
       <ThreeDBackground scrollProgressRef={scrollProgressRef} />
       <div className="relative z-10">
         <h1
           ref={logoRef}
-          className="animated-gradient-text text-6xl md:text-8xl font-bold mb-4 md:mb-8 mx-auto will-change-transform"
+          className="animated-gradient-text mt-14 md:mt-22 lg:mt-12 text-6xl md:text-8xl lg:text-8xl font-bold mb-4 md:mb-8 mx-auto will-change-transform"
           style={{ fontFamily: 'var(--font-secondary)' }}
         >
           Human-led. AI-fueled.
         </h1>
         <p
           ref={subheadlineRef}
-          className="text-xl md:text-3xl mb-8 font-urbanist font-base md:mx-88"
+          className="text-xl md:text-3xl mb-8 font-urbanist font-base md:mx-14 lg:mx-88"
         >
           Helping individuals and organizations harness the power of AI to enhance human potential.
         </p>

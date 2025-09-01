@@ -88,7 +88,7 @@ const ServicesSection: React.FC = () => {
     {
       svg: '/accessibility.svg',
       title: 'Inclusive & Accessible AI',
-      description: 'From design reviews to user testing, we ensure your AI solutions work for everyone — including people with disabilities.',
+      description: 'Custom-built agents that automate tasks, streamline workflows, and work alongside your team.',
     },
     {
       svg: '/practice.svg',
@@ -108,7 +108,7 @@ const ServicesSection: React.FC = () => {
       className="min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24 mx-4 md:mx-8 mt-24 md:mt-28"
     >
       <section className="max-w-6xl mx-auto text-center mb-16">
-        <h1 ref={titleRef} className="text-5xl md:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Services">
+        <h1 ref={titleRef} className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Services">
           {"Services".split('').map((char, index) => (
             <span key={index} className="relative inline-block overflow-hidden h-[1.2em]" aria-hidden="true"> 
               <span className="char-initial inline-block">{char}</span>
@@ -122,7 +122,7 @@ const ServicesSection: React.FC = () => {
       </section>
 
       <section className="max-w-7xl mx-auto md:mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-6">
           {serviceAreas.map((service, index) => (
             <div
               key={index}

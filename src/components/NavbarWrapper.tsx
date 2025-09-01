@@ -5,12 +5,9 @@ import Navbar from './Navbar';
 import ContactHeader from './ContactHeader'; // Assuming ContactHeader is created
 
 const NavbarWrapper: React.FC = () => {
-  const pathname = usePathname();
-  const isContactPage = pathname === '/contact';
-
   return (
     <>
-      {isContactPage ? <ContactHeader /> : <Navbar />}
+      <Navbar />
     </>
   );
 };

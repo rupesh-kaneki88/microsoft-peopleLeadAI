@@ -3,8 +3,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Modal from './Modal';
+import DownloadModal from './DownloadModal';
 
 const popularContentData = [
   {
@@ -12,20 +12,20 @@ const popularContentData = [
     image: '/ai-svgrepo-com.svg',
     file: '/PeopleLead_AI_Resource_Checklists/AI_Readiness_Checklist_PeopleLeadAI.pdf',
   },
-  {
-    title: 'AI and Accessibility',
-    image: '/accessibility-svgrepo-com.svg',
-    file: '/PeopleLead_AI_Resource_Checklists/Inclusive_AI_Design_Checklist_PeopleLead.pdf',
-  },
+  // {
+  //   title: 'AI and Accessibility',
+  //   image: '/accessibility-svgrepo-com.svg',
+  //   file: '/PeopleLead_AI_Resource_Checklists/Inclusive_AI_Design_Checklist_PeopleLead.pdf',
+  // },
   {
     title: 'How to Talk to Your Team About AI',
     image: '/problem-process-solution-svgrepo-com.svg',
     file: '/PeopleLead_AI_Resource_Checklists/How_to_Talk_to_Your_Team_About_AI_Checklist_PeopleLead.pdf',
   },
   {
-    title: 'People-Centered AI: A Beginner\'s Guide',
+    title: "People-Centered AI: A Beginner's Guide",
     image: '/discover-compass-svgrepo-com.svg',
-    file: '/PeopleLead_AI_Resource_Checklists/AI_Beginners_Guide_PeopleLead.pdf',
+    file: "/PeopleLead_AI_Resource_Checklists/AI_Beginners_Guide_PeopleLead.pdf",
   },
 ];
 
@@ -33,7 +33,27 @@ const PopularContent: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<{ file: string; title: string; image: string } | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/check-auth', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        const data = await response.json();
+        setIsAuthenticated(data.isAuthenticated);
+        console.log('PopularContent: isAuthenticated set to:', data.isAuthenticated);
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   useEffect(()=> {
     if (!titleRef.current) return;
@@ -53,7 +73,7 @@ const PopularContent: React.FC = () => {
     
   }, [])
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (window.innerWidth < 768) return; // skip on mobile
 
     const image = e.currentTarget.querySelector('.content-image');
@@ -62,7 +82,7 @@ const PopularContent: React.FC = () => {
     gsap.to(title, { color: 'black', duration: 0.4 });
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (window.innerWidth < 768) return; // skip on mobile
 
     const image = e.currentTarget.querySelector('.content-image');
@@ -71,26 +91,68 @@ const PopularContent: React.FC = () => {
     gsap.to(title, { color: 'var(--color-secondary)', duration: 0.4 });
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, file: string, title: string, image: string) => {
-    e.preventDefault();
+  const handleClick = (file: string, title: string, image: string) => {
     setSelectedFile({ file, title, image });
-    setIsModalOpen(true);
+    console.log('PopularContent: isAuthenticated on click:', isAuthenticated);
+    if (isAuthenticated) {
+      setIsDownloadModalOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
-  const handleConfirmDownload = () => {
-    if (selectedFile) {
-      const link = document.createElement('a');
-      link.href = selectedFile.file;
-      link.download = selectedFile.title;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const handleEmailSubmit = async (email: string) => {
+    try {
+      const response = await fetch('/api/verify-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, origin: window.location.origin }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send verification email');
+      }
+
+      // The modal will show the "Check your inbox" message
+    } catch (error) {
+      console.error(error);
+      // Optionally, you can show an error message to the user in the modal
     }
-    setIsModalOpen(false);
+  };
+
+  const handleDownload = async (file: string, title: string) => {
+    try {
+      const response = await fetch(`/api/download?file=${encodeURIComponent(file)}`);
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = title;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        console.error('Download failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDownloadConfirm = () => {
+    if (selectedFile) {
+      handleDownload(selectedFile.file, selectedFile.title);
+    }
+    setIsDownloadModalOpen(false);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setIsDownloadModalOpen(false);
   };
 
   return (
@@ -99,7 +161,7 @@ const PopularContent: React.FC = () => {
       <section className="max-w-6xl mx-auto text-center mb-16">
         <h1 ref={titleRef} className="text-5xl md:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Resources">
           {"Resources".split('').map((char, index) => (
-            <span key={index} className="relative inline-block overflow-hidden h-[1.2em]" aria-hidden="true"> 
+            <span key={index} className="relative inline-block overflow-hidden h-[1.2em]"> 
               <span className="char-initial inline-block">{char}</span>
               <span className="char-incoming absolute inset-0 inline-block opacity-0 transform translate-y-full">{char}</span>
             </span>
@@ -111,16 +173,15 @@ const PopularContent: React.FC = () => {
       </section>
 
       <section className="max-w-6xl mx-auto text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 text-[var(--color-primary)] font-primary text-center">Popular Content</h2>
+        {/* <h2 className="text-4xl md:text-5xl font-bold mb-8 text-[var(--color-primary)] font-primary text-center">Popular Content</h2> */}
         <div className="border-t border-[var(--color-secondary)] px-4">
           {popularContentData.map((item, index) => (
-            <a
+            <div
               key={index}
-              href={item.file}
               className="w-screen relative left-1/2 right-1/2 -ml-[50vw] flex justify-center hover:bg-[var(--color-primary)] transition-colors duration-300 cursor-pointer"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              onClick={(e) => handleClick(e, item.file, item.title, item.image)}
+              onClick={() => handleClick(item.file, item.title, item.image)}
             >
               <div
                 className="content-item relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--color-secondary)] py-8 md:py-14 w-full max-w-6xl px-4"
@@ -131,19 +192,25 @@ const PopularContent: React.FC = () => {
                 <div
                   className="content-image hidden md:block absolute right-0 top-full transform -translate-y-1/2 mr-8 opacity-0"
                   style={{ transform: 'translateY(-50%) translateX(10%) rotate(-5deg)' }}
-                  aria-hidden="true"
                 >
                   <Image src={item.image} alt={item.title} width={120} height={120} className='opacity-76' />
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </section>
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onConfirm={handleConfirmDownload}
+        onConfirm={handleEmailSubmit}
+        title={selectedFile?.title || ''}
+        svg={selectedFile?.image || ''}
+      />
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleDownloadConfirm}
         title={selectedFile?.title || ''}
         svg={selectedFile?.image || ''}
       />
