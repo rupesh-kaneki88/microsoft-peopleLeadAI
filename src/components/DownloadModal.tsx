@@ -16,9 +16,13 @@ const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose, onConfir
 
   useEffect(() => {
     if (isOpen) {
-      gsap.to(modalRef.current, { autoAlpha: 1, duration: 0.3 });
+      if (modalRef.current) {
+        gsap.to(modalRef.current, { autoAlpha: 1, duration: 0.3 });
+      }
     } else {
-      gsap.to(modalRef.current, { autoAlpha: 0, duration: 0.3 });
+      if (modalRef.current) {
+        gsap.to(modalRef.current, { autoAlpha: 0, duration: 0.3 });
+      }
     }
   }, [isOpen]);
 

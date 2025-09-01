@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     // Generate JWT token
     const jwtSecret = process.env.JWT_SECRET; // TODO: Use a strong secret from environment variables
-    const token = jwt.sign({ email }, jwtSecret as string, { expiresIn: '15m' });
+    const token = jwt.sign({ email }, jwtSecret as string, { expiresIn: '1h' });
 
     // --- Send Verification Email ---
     const url = new URL(request.url);

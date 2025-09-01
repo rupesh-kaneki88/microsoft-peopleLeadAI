@@ -85,9 +85,14 @@ const ServicesSection: React.FC = () => {
       svg: '/chatbot.svg',
       description: 'Designing smart, human-centered chatbots that reflect your brand voice and support users with clarity and care.',
     },
+    // {
+    //   svg: '/accessibility.svg',
+    //   title: 'Inclusive & Accessible AI',
+    //   description: 'Custom-built agents that automate tasks, streamline workflows, and work alongside your team.',
+    // },
     {
       svg: '/accessibility.svg',
-      title: 'Inclusive & Accessible AI',
+      title: 'AI Agents',
       description: 'Custom-built agents that automate tasks, streamline workflows, and work alongside your team.',
     },
     {

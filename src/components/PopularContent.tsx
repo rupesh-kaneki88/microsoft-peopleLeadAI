@@ -76,19 +76,52 @@ const PopularContent: React.FC = () => {
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (window.innerWidth < 768) return; // skip on mobile
 
-    const image = e.currentTarget.querySelector('.content-image');
-    const title = e.currentTarget.querySelector('.content-title');
-    gsap.to(image, { autoAlpha: 1, y: '-90%', x: '10%', rotation: -5, scale:1.3, duration: 0.4, ease: 'power2.out' });
-    gsap.to(title, { color: 'black', duration: 0.4 });
+    const image = e.currentTarget.querySelector('.content-image') as HTMLElement;
+    const title = e.currentTarget.querySelector('.content-title') as HTMLElement;
+    if (image) {
+      gsap.to(image, {
+        autoAlpha: 1,
+        y: '-90%',
+        x: '10%',
+        rotation: -5,
+        scale: 1.3,
+        duration: 0.4,
+        ease: 'power2.out',
+      });
+    }
+  
+    if (title) {
+      gsap.to(title, {
+        color: '#000000', 
+        duration: 0.4,
+      });
+    }
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (window.innerWidth < 768) return; // skip on mobile
-
-    const image = e.currentTarget.querySelector('.content-image');
-    const title = e.currentTarget.querySelector('.content-title');
-    gsap.to(image, { autoAlpha: 0, y: '-50%', x: '10%', rotation: -5, duration: 0.4, scale:1, ease: 'power2.in' });
-    gsap.to(title, { color: 'var(--color-secondary)', duration: 0.4 });
+    if (window.innerWidth < 768) return;
+  
+    const image = e.currentTarget.querySelector('.content-image') as HTMLElement;
+    const title = e.currentTarget.querySelector('.content-title') as HTMLElement;
+  
+    if (image) {
+      gsap.to(image, {
+        autoAlpha: 0,
+        y: '-50%',
+        x: '10%',
+        rotation: -5,
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.in',
+      });
+    }
+  
+    if (title) {
+      gsap.to(title, {
+        color: 'var(--color-secondary)',
+        duration: 0.4,
+      });
+    }
   };
 
   const handleClick = (file: string, title: string, image: string) => {
@@ -127,14 +160,8 @@ const PopularContent: React.FC = () => {
       const response = await fetch(`/api/download?file=${encodeURIComponent(file)}`);
 
       if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = title;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        const url = `/api/download?file=${encodeURIComponent(file)}`;
+        window.open(url, '_blank');
       } else {
         console.error('Download failed');
       }
@@ -184,11 +211,12 @@ const PopularContent: React.FC = () => {
               onClick={() => handleClick(item.file, item.title, item.image)}
             >
               <div
+                role='button'
                 className="content-item relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--color-secondary)] py-8 md:py-14 w-full max-w-6xl px-4"
               >
-                <h3 className="content-title text-base sm:text-xl md:text-3xl text-center md:text-left font-urbanist break-words w-full">
+                <span className="content-title text-base sm:text-xl md:text-3xl text-center md:text-left font-urbanist break-words w-full">
                   {item.title}
-                </h3>
+                </span>
                 <div
                   className="content-image hidden md:block absolute right-0 top-full transform -translate-y-1/2 mr-8 opacity-0"
                   style={{ transform: 'translateY(-50%) translateX(10%) rotate(-5deg)' }}

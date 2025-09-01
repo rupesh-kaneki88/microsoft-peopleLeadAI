@@ -2,43 +2,26 @@ import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { cookies } from 'next/headers';
-
-// Define the path for the temporary tokens database
-const tokensFilePath = path.join(process.cwd(), 'tokens.json');
-
-// In-memory cache for tokens to avoid reading the file on every request
-let tokensCache: any = null;
-
-async function readTokens() {
-  if (tokensCache) {
-    return tokensCache;
-  }
-  try {
-    const data = await fs.readFile(tokensFilePath, 'utf-8');
-    tokensCache = JSON.parse(data);
-    return tokensCache;
-  } catch (error) {
-    // If the file doesn't exist, return an empty object
-    return {};
-  }
-}
+import jwt from 'jsonwebtoken';
 
 export async function GET(request: Request) {
   try {
     const cookieStore = cookies();
-    const token = cookieStore.get('auth_token')?.value;
+    const authToken = (await cookieStore).get('auth_token')?.value;
     const { searchParams } = new URL(request.url);
     const file = searchParams.get('file');
 
-    if (!token || !file) {
-      return NextResponse.json({ message: 'Token and file are required' }, { status: 400 });
+    if (!authToken || !file) {
+      return NextResponse.json({ message: 'Authentication token and file are required' }, { status: 400 });
     }
 
-    const tokens = await readTokens();
-    const tokenData = tokens[token];
+    const jwtSecret = process.env.JWT_SECRET 
 
-    if (!tokenData || tokenData.expirationTime < Date.now()) {
-      return NextResponse.json({ message: 'Invalid or expired token' }, { status: 400 });
+    try {
+      jwt.verify(authToken, jwtSecret as string);
+    } catch (error) {
+      console.error('JWT verification failed for download:', error);
+      return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
     }
 
     const filePath = path.join(process.cwd(), 'public', file);
@@ -46,8 +29,8 @@ export async function GET(request: Request) {
 
     return new NextResponse(fileBuffer, {
       headers: {
-        'Content-Disposition': `attachment; filename="${path.basename(filePath)}"`,
-        'Content-Type': 'application/pdf', // Assuming all files are PDFs for this example
+        'Content-Disposition': `inline; filename="${path.basename(filePath)}"`, // Display in browser with filename hint
+        'Content-Type': 'application/pdf', // Ensure correct MIME type
       },
     });
   } catch (error) {

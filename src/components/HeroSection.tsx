@@ -17,7 +17,7 @@ const HeroSection = () => {
   const theme = useTheme();
   const sectionRef = useRef(null);
   const logoRef = useRef<HTMLHeadingElement | null>(null);
-  const subheadlineRef = useRef(null);
+  const subheadlineRef = useRef<HTMLParagraphElement | null>(null);
   const cta1Ref = useRef(null);
   const cta1TextRef = useRef<HTMLSpanElement | null>(null);
   const cta1HoverTextRef = useRef(null);
@@ -29,28 +29,29 @@ const HeroSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to(logoRef.current, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
-
       if (subheadlineRef.current) {
+        subheadlineRef.current.setAttribute('aria-hidden', 'true');
+  
         const splitText = new SplitText(subheadlineRef.current, { type: "words,chars" });
-        gsap.set(splitText.chars, { opacity: 0, y: 20, rotationX: -90 });
+        gsap.set(splitText.chars, { y: 20, rotationX: -90, autoAlpha: 0 });
         gsap.to(splitText.chars, {
-          opacity: 1,
+          autoAlpha: 1,
           y: 0,
           rotationX: 0,
           stagger: 0.02,
           duration: 0.8,
           ease: "power3.out",
           delay: 0.2,
+          onComplete: () => {
+            subheadlineRef.current?.removeAttribute('aria-hidden');
+          },
         });
       }
-
-      gsap.set([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 20 });
-      gsap.to([cta1Ref.current, cta2Ref.current], { opacity: 1, y: 0, duration: 0.8, delay: 0.6, ease: "power3.out", stagger: 0.1 });
     }, sectionRef);
-
+  
     return () => ctx.revert();
   }, []);
+  
 
   const handleMouseEnter = (textRef: React.RefObject<HTMLSpanElement | null>, hoverTextRef: React.RefObject<HTMLSpanElement | null>) => {
     if (textRef.current && hoverTextRef.current) {
@@ -81,8 +82,12 @@ const HeroSection = () => {
         >
           Human-led. AI-fueled.
         </h1>
+        <p className="sr-only">
+          Helping individuals and organizations harness the power of AI to enhance human potential.
+        </p>
         <p
           ref={subheadlineRef}
+          aria-hidden= "true"
           className="text-xl md:text-3xl mb-8 font-urbanist font-base md:mx-14 lg:mx-88"
         >
           Helping individuals and organizations harness the power of AI to enhance human potential.
