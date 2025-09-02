@@ -33,7 +33,19 @@ const ScrollToTop: React.FC = () => {
   }, [isVisible]);
 
   const scrollToTop = () => {
-    gsap.to(window, { duration: 0.5, scrollTo: { y: 0 }, ease: 'power2.inOut' });
+    gsap.to(window, {
+      duration: 0.5,
+      scrollTo: { y: 0 },
+      ease: 'power2.inOut',
+      onComplete: () => {
+        const body = document.body;
+        body.tabIndex = -1;
+        body.focus();
+        body.addEventListener('blur', () => {
+          body.removeAttribute('tabIndex');
+        }, { once: true });
+      }
+    });
   };
 
   const handleMouseEnter = () => {
@@ -47,7 +59,7 @@ const ScrollToTop: React.FC = () => {
   return (
     <button
       ref={buttonRef}
-      className={`scroll-to-top fixed bottom-8 right-8 p-4 rounded-full bg-transparent border border-white text-white shadow-lg transition-transform transform hover:scale-110 focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)] cursor-pointer`}
+      className={`scroll-to-top fixed right-3 bottom-4 md:bottom-8 md:right-8 p-4 rounded-full bg-transparent border border-white text-white shadow-lg transition-transform transform hover:scale-110 focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)] cursor-pointer`}
       onClick={scrollToTop}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -56,7 +68,7 @@ const ScrollToTop: React.FC = () => {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
+        className="md:h-6 md:w-6 h-4 w-4"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

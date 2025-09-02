@@ -180,11 +180,11 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-[var(--color-background)] bg-opacity-80 backdrop-blur-sm shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center" onClick={(e) => handleNavLinkClick(e, '/', false)}>
+        <Link href="/" aria-label="PeopleLead AI Home" className="flex items-center" onClick={(e) => handleNavLinkClick(e, '/', false)}>
           <div className="w-36 md:w-44 lg:w-48">
             <Image
               src="/PeopleLead-AI-Logo-1.png"
-              alt="PeopleLead-AI Logo"
+              alt=""
               width={200}
               height={45}
               style={{ width: '100%', height: 'auto' }}
@@ -199,6 +199,7 @@ const Navbar: React.FC = () => {
         <button
           className="md:hidden text-[var(--color-secondary)] focus:outline-none z-50"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label='Toggle Menu'
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-menu"
         >

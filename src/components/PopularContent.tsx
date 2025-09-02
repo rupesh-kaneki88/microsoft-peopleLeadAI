@@ -56,7 +56,7 @@ const PopularContent: React.FC = () => {
   }, []);
 
   useEffect(()=> {
-    if (!titleRef.current) return;
+    if (!titleRef.current || window.innerWidth < 768) return;
 
     const tlTitle = gsap.timeline();
     tlTitle.fromTo(
@@ -183,9 +183,9 @@ const PopularContent: React.FC = () => {
   };
 
   return (
-    <main ref={containerRef} className="w-full min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24  md:mx-8 mt-24 md:mt-28">
+    <main ref={containerRef} className="w-full min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24  md:mx-8 mt-14 md:mt-28">
 
-      <section className="max-w-6xl mx-auto text-center mb-16">
+      <section className="max-w-6xl mx-auto text-center mb-8 md:mb-16">
         <h1 ref={titleRef} className="text-5xl md:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Resources">
           {"Resources".split('').map((char, index) => (
             <span key={index} className="relative inline-block overflow-hidden h-[1.2em]"> 
@@ -214,10 +214,19 @@ const PopularContent: React.FC = () => {
                 role='button'
                 className="content-item relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[var(--color-secondary)] py-8 md:py-14 w-full max-w-6xl px-4"
               >
-                <span className="content-title text-base sm:text-xl md:text-3xl text-center md:text-left font-urbanist break-words w-full">
+                <span 
+                  className="content-title text-base sm:text-xl md:text-3xl text-center md:text-left font-urbanist break-words w-full no-tap-highlight"
+                  style={{
+                    color: 'var(--color-secondary)',
+                    WebkitTapHighlightColor: 'transparent',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none',
+                  }}
+                >
                   {item.title}
                 </span>
                 <div
+                  aria-hidden="true"
                   className="content-image hidden md:block absolute right-0 top-full transform -translate-y-1/2 mr-8 opacity-0"
                   style={{ transform: 'translateY(-50%) translateX(10%) rotate(-5deg)' }}
                 >

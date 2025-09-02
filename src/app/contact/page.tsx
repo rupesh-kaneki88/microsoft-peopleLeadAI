@@ -118,7 +118,7 @@ const ContactPage: React.FC = () => {
                   <span className="inline-block">Book a Free Consult</span>
               </p>
               <p className="text-lg md:text-xl font-urbanist">
-                Prefer to talk directly? Reach out at <a href="mailto:contact@peoplelead.ai" className="text-[var(--color-primary)] hover:underline">contact@peoplelead.ai</a>
+                Prefer to talk directly? Reach out at <a href="mailto:contact@peoplelead.ai" className="text-[var(--color-primary)] font-bold hover:underline">contact@peoplelead.ai</a>
               </p>
             </div>
           </section>

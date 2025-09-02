@@ -110,9 +110,9 @@ const ServicesSection: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24 mx-4 md:mx-8 mt-24 md:mt-28"
+      className="min-h-screen bg-[var(--color-background)] text-[var(--color-secondary)] mb-4 md:mb-24 mx-4 md:mx-8 mt-14 md:mt-28"
     >
-      <section className="max-w-6xl mx-auto text-center mb-16">
+      <section className="max-w-6xl mx-auto text-center mb-8 md:mb-16">
         <h1 ref={titleRef} className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[var(--color-primary)] font-primary leading-tight flex justify-center" aria-label="Services">
           {"Services".split('').map((char, index) => (
             <span key={index} className="relative inline-block overflow-hidden h-[1.2em]" aria-hidden="true"> 
