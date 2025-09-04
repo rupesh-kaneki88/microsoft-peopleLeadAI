@@ -10,7 +10,7 @@ const AboutSection: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const textRefs = useRef<(HTMLDivElement | null)[]>([]);
-
+  const isIOSRef = useRef(false);
 
   const sectionsData = [
     {
@@ -50,67 +50,108 @@ const AboutSection: React.FC = () => {
       svg1: '/team.svg',
       svg2: '/puzzle.svg',
       svg1Desc: 'team icon',
-      svg2Desc: 'puzzle icon'
+      svg2Desc: 'puzzle icon',
     },
   ];
 
+  // Detect iOS/iPadOS (including iPadOS reporting as Mac)
   useEffect(() => {
-    if (!mainRef.current) return;
+    const ua = navigator.userAgent || '';
+    const isIOS =
+      /iPad|iPhone|iPod/.test(ua) ||
+      (ua.includes('Mac') && 'ontouchend' in document);
+    isIOSRef.current = isIOS;
+  }, []);
+
+  // iOS 100vh fix
+  useEffect(() => {
+    const setVH = () => {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    };
+    setVH();
+    window.addEventListener('resize', setVH);
+    return () => window.removeEventListener('resize', setVH);
+  }, []);
+
+  useEffect(() => {
+    const mainEl = mainRef.current;
+    if (!mainEl) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return; // ✅ Skip animations for motion-sensitive users
+    if (prefersReducedMotion) return;
 
-    const sections = sectionRefs.current;
-    const texts = textRefs.current;
+    const setup = () => {
+      const sections = sectionRefs.current.filter(Boolean) as HTMLElement[];
+      const texts = textRefs.current.filter(Boolean) as HTMLDivElement[];
 
-    // Initial setup
-    gsap.set(sections.slice(1), { yPercent: 100 });
-    gsap.set(texts, { opacity: 0, y: 20 });
-    gsap.set(texts[0], { opacity: 1, y: 0 });
+      // Initial states
+      gsap.set(sections.slice(1), { yPercent: 100, force3D: true });
+      gsap.set(texts, { opacity: 0, y: 20 });
+      gsap.set(texts[0], { opacity: 1, y: 0 });
 
-    // Main timeline for background sliding
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: mainRef.current,
-        pin: true,
-        scrub: 1,
-        end: () => `+=${(sections.length - 1) * window.innerHeight}`
-      }
-    });
+      // Calculate scroll distance equal to (#slides - 1) * viewport height
+      const scrollDistance = (mainEl.clientHeight || window.innerHeight) * (sections.length - 1);
 
-    // Animate background sections sliding
-    sections.forEach((section, i) => {
-      if (i > 0) {
-        tl.to(section, { yPercent: 0, ease: 'none' }, i);
-      }
-    });
+      // Main timeline with proper spacer (pinSpacing: true)
+      const tl = gsap.timeline({
+        defaults: { duration: 1, ease: 'none' },
+        scrollTrigger: {
+          trigger: mainEl,
+          pin: true,
+          // Keep spacing so we have enough scroll room to finish all slides:
+          pinSpacing: true,
+          // Force transform pinning on iOS/iPadOS to avoid stacking glitches:
+          pinType: isIOSRef.current ? 'transform' : 'fixed',
+          scrub: 1,
+          end: `+=${scrollDistance}`,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
 
-    // Text transitions synced with background slides
-    texts.forEach((text, i) => {
-      if (i > 0) {
-        tl.to(texts[i - 1], { opacity: 0, y: -20, duration: 0.5 }, i - 0.3);
-        tl.to(text, { opacity: 1, y: 0, duration: 0.5 }, i);
-      }
-    });
+      // Background slides
+      sections.forEach((section, i) => {
+        if (i > 0) {
+          tl.to(section, { yPercent: 0 }, i); // place each slide at whole-number positions
+        }
+      });
+
+      // Text transitions in sync
+      texts.forEach((text, i) => {
+        if (i > 0) {
+          tl.to(texts[i - 1], { opacity: 0, y: -20, duration: 0.35 }, i + 0.4);
+          tl.to(text, { opacity: 1, y: 0, duration: 0.35 }, i + 0.8);
+        }
+      });
+
+      return tl;
+    };
+
+    const tl = setup();
+
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      window.removeEventListener('resize', handleResize);
+      if (tl) tl.scrollTrigger?.kill();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 
   return (
     <section
       ref={mainRef}
-      className="relative w-full h-screen overflow-hidden mb-4 md:mb-8"
+      className="relative w-full overflow-hidden mb-4 md:mb-8"
+      style={{ height: 'calc(var(--vh) * 100)' }}
       role="main"
       aria-label="About Page with sliding sections"
     >
-      {/* ✅ Sticky Text Container */}
-      <div className="sticky top-0 h-screen flex items-center justify-center z-[100]">
-        <div
-          className="relative w-full h-full flex items-center justify-center"
-          aria-live="polite"
-        >
+      {/* Sticky Text Container */}
+      <div className="sticky top-0 h-full flex items-center justify-center z-[100]">
+        <div className="relative w-full h-full flex items-center justify-center" aria-live="polite">
           {sectionsData.map((section, index) => (
             <div
               key={index}
@@ -119,51 +160,39 @@ const AboutSection: React.FC = () => {
               role="region"
               aria-labelledby={`section-title-${index}`}
             >
-
               <h2
                 id={`section-title-${index}`}
                 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-primary leading-tight"
-                style={{
-                  color: `${section.titleColor}`,
-                  // textShadow: section.textColor === '#fff' ? '0 2px 10px rgba(0,0,0,0.3)' : 'none'
-                }}
+                style={{ color: section.titleColor }}
               >
                 {section.title}
               </h2>
               <p
                 className="text-xl md:text-3xl leading-relaxed font-urbanist"
-                style={{
-                  color: section.textColor === '#fff' ? 'rgba(255,255,255,0.9)' : '#444'
-                }}
+                style={{ color: section.textColor === '#fff' ? 'rgba(255,255,255,0.9)' : '#444' }}
               >
                 {section.description}
               </p>
-
             </div>
           ))}
         </div>
       </div>
 
-      {/* ✅ Background sliding sections */}
+      {/* Background sliding sections */}
       {sectionsData.map((section, index) => (
         <section
           key={index}
-          ref={(el) => { sectionRefs.current[index] = el; }}
-          className="absolute top-0 left-0 w-full h-screen"
-          style={{
-            backgroundColor: section.bg,
-            zIndex: 10 + index
-          }}
-          aria-hidden="true" // ✅ Background is decorative only
+          ref={(el) => {(sectionRefs.current[index] = el)}}
+          className="absolute top-0 left-0 w-full h-full will-change-transform"
+          style={{ backgroundColor: section.bg, zIndex: 10 + index }}
+          aria-hidden="true"
         >
-          {/* bottom icon */}
           <img
             src={section.svg1}
-            alt={`${section.svg1Desc}`}
+            alt={section.svg1Desc}
             className="absolute bottom-0 right-0 md:right-4 w-60 md:w-80 h-50 md:h-80 opacity-10"
             aria-hidden="true"
           />
-          {/* top icon */}
           <img
             src={section.svg2}
             alt={`${section.svg2Desc} icon`}

@@ -20,6 +20,7 @@ import { ThemeProvider } from "../providers/theme-provider";
 
 import { LoadingProvider } from '@/providers/LoadingProvider';
 import { Toaster } from 'sonner';
+import CookieConsentBanner from '@/components/CookieConsentBanner';
 
 export default function RootLayout({
   children,
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className="">
         <ThemeProvider>
           <LoadingProvider>
+            <CookieConsentBanner />
             <NavbarWrapper /> {/* Changed component */}
             {children}
             <Footer />

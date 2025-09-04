@@ -91,7 +91,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, svg })
             <>
               <h2 id="modal-title" className="text-2xl md:text-3xl font-bold font-helvetica-neue mb-4 text-[var(--color-primary)]">{title}</h2>
               <p id="modal-description" className="text-[var(--color-secondary)] font-helvetica-neue mb-6">Enter your email to access this.</p>
+              <label htmlFor="email-input" className="sr-only">Email Address</label>
               <input
+                id="email-input"
                 ref={emailInputRef}
                 type="email"
                 value={email}
