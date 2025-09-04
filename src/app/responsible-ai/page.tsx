@@ -22,9 +22,9 @@ const ResponsibleAIPage = () => {
           <ul className="list-disc list-inside mb-4">
             <li>Transparency: We are transparent about what our AI systems do and how they work. We will clearly communicate the capabilities and limitations of our tools.</li>
             <li>Fairness: We are committed to building AI that is fair and minimizes bias. We take proactive steps to promote equitable outcomes and avoid unfair discrimination.</li>
-            <li>Privacy: The privacy of our users' data is paramount. We build our AI systems with data protection at their core, ensuring all client and user data is safeguarded.</li>
+            <li>Privacy: The privacy of our users&#39; data is paramount. We build our AI systems with data protection at their core, ensuring all client and user data is safeguarded.</li>
             <li>Accessibility: We ensure our AI solutions are inclusive and usable by everyone, including those with disabilities.</li>
-            <li>Accountability: We take responsibility for the AI guidance and systems we provide. We have internal processes to review and address any issues that arise from our AI's performance.</li>
+            <li>Accountability: We take responsibility for the AI guidance and systems we provide. We have internal processes to review and address any issues that arise from our AI&#39;s performance.</li>
           </ul>
           <div className="mt-8">
             <a href="#top" onClick={scrollToTop} className="text-lg md:text-xl underline cursor-pointer font-urbanist text-[var(--color-primary)]">
@@ -35,7 +35,7 @@ const ResponsibleAIPage = () => {
           <hr className="my-8 border-gray-700" />
 
           <h3 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--color-primary)] font-primary leading-tight">Your Role</h3>
-          <p className="mb-4">We encourage all clients and users to use our AI tools responsibly, respecting people’s rights, dignity, and privacy. The human element of leadership is irreplaceable, and our AI is designed to be a supportive partner, not a final decision-maker.</p>
+          <p className="mb-4">We encourage all clients and users to use our AI tools responsibly, respecting people&#39;s rights, dignity, and privacy. The human element of leadership is irreplaceable, and our AI is designed to be a supportive partner, not a final decision-maker.</p>
           <div className="mt-8">
             <a href="#top" onClick={scrollToTop} className="text-lg md:text-xl underline cursor-pointer font-urbanist text-[var(--color-primary)]">
               Back to Top

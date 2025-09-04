@@ -52,8 +52,8 @@ const PrivacyPage = () => {
           <h3 id="how-we-share-info" className="text-3xl md:text-4xl font-bold mb-4 text-[var(--color-primary)] font-primary leading-tight">Sharing Information</h3>
           <p className="mb-4">We will never sell or rent your personal data. Information is only shared in the following limited circumstances:</p>
           <ul className="list-disc list-inside mb-4">
-            <li>With Trusted Service Providers: We may share your data with third-party vendors and service providers who perform services on our behalf (e.g., data hosting, analytics, customer support). These providers are contractually bound to protect your data and are only permitted to use it to perform the services we’ve requested.</li>
-            <li>For Legal Reasons: We may be required to disclose your information if legally compelled to do so, such as in response to a court order or subpoena, or if we believe it's necessary to protect our rights or the safety of our users.</li>
+            <li>With Trusted Service Providers: We may share your data with third-party vendors and service providers who perform services on our behalf (e.g., data hosting, analytics, customer support). These providers are contractually bound to protect your data and are only permitted to use it to perform the services we&#39;ve requested.</li>
+            <li>For Legal Reasons: We may be required to disclose your information if legally compelled to do so, such as in response to a court order or subpoena, or if we believe it&#39;s necessary to protect our rights or the safety of our users.</li>
           </ul>
           <div className="mt-8">
             <a href="#top" onClick={scrollToTop} className="text-lg md:text-xl underline cursor-pointer font-urbanist text-[var(--color-primary)]">

@@ -20,7 +20,7 @@ const CookiePolicyPage = () => {
           <h3 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--color-primary)] font-primary leading-tight">What Are Cookies and How We Use Them</h3>
           <p className="mb-4">Cookies are small text files that are placed on your device by a website you visit. They are widely used to make websites work more efficiently and to provide a better browsing experience. We use cookies for a few key reasons:</p>
           <ul className="list-disc list-inside mb-4">
-            <li>Improved Performance: Cookies help us optimize our site's performance and load times.</li>
+            <li>Improved Performance: Cookies help us optimize our site&#39;s performance and load times.</li>
             <li>Traffic Analysis: We use cookies to analyze website traffic, which helps us understand how our users interact with our platform and improve our services.</li>
             <li>Enhanced Browsing: Cookies allow us to remember your preferences and enhance your browsing experience, such as keeping you logged in.</li>
           </ul>
