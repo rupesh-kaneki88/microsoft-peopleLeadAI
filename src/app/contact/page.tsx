@@ -113,7 +113,7 @@ const ContactPage: React.FC = () => {
           ))}
         </h1>
         <p className="text-2xl md:text-3xl leading-relaxed font-helvetica-neue-ultralight text-gray-300 max-w-3xl mx-auto">
-          Let’s talk about how AI can help your people do their best work.
+          Let&#39;s talk about how AI can help your people do their best work.
         </p>
       </section>
 
@@ -124,7 +124,7 @@ const ContactPage: React.FC = () => {
                   <span className="inline-block">Book a Free Consult</span>
               </p>
               <p className="text-lg md:text-xl font-urbanist">
-                Prefer to talk directly? Reach out at <a href="mailto:contact@peoplelead.ai" className="text-[var(--color-primary)] font-bold hover:underline">contact@peoplelead.ai</a>
+                Prefer to talk directly? Reach out at <a href="mailto:mrjeremycurry@gmail.com" className="text-[var(--color-primary)] font-bold hover:underline">mrjeremycurry@gmail.com</a>
               </p>
             </div>
           </section>
