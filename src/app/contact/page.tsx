@@ -2,8 +2,8 @@
 
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
-
 import { toast } from 'sonner';
+import FeedbackModal from '@/components/FeedbackModal';
 
 const ContactPage: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -14,6 +14,8 @@ const ContactPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: '', message: '' });
 
   useLayoutEffect(() => {
     if (!titleRef.current) return;
@@ -81,7 +83,11 @@ const ContactPage: React.FC = () => {
         const data = await response.json();
 
         if (response.ok) {
-          toast.success(data.message || 'Thank you for subscribing!');
+          setModalContent({
+            title: 'Thank You!',
+            message: "Thank you for subscribing to PeopleLead AI! We're thrilled to have you join our community.",
+          });
+          setIsModalOpen(true);
           setEmail(''); // Clear input
         } else {
           toast.error(data.message || 'An error occurred. Please try again.');
@@ -159,6 +165,13 @@ const ContactPage: React.FC = () => {
             {emailError && <p className="text-red-500 text-sm mt-2">{emailError}</p>}
           </section>
         </div>
+      <FeedbackModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        title={modalContent.title}
+      >
+        <p>{modalContent.message}</p>
+      </FeedbackModal>
     </main>
   );
 };

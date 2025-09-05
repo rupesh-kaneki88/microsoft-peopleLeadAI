@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import Image from 'next/image';
 import Modal from './Modal';
 import DownloadModal from './DownloadModal';
+import ComingSoonModal from './ComingSoonModal';
 
 const popularContentData = [
   {
@@ -34,26 +35,28 @@ const PopularContent: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+  const [isComingSoonModalOpen, setIsComingSoonModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<{ file: string; title: string; image: string } | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/check-auth', {
-          method: 'GET',
-          credentials: 'include'
-        });
-        const data = await response.json();
-        setIsAuthenticated(data.isAuthenticated);
-        console.log('PopularContent: isAuthenticated set to:', data.isAuthenticated);
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-      }
-    };
+  // Email verification is temporarily disabled.
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const response = await fetch('/api/check-auth', {
+  //         method: 'GET',
+  //         credentials: 'include'
+  //       });
+  //       const data = await response.json();
+  //       setIsAuthenticated(data.isAuthenticated);
+  //       console.log('PopularContent: isAuthenticated set to:', data.isAuthenticated);
+  //     } catch (error) {
+  //       console.error('Error checking authentication:', error);
+  //     }
+  //   };
 
-    checkAuth();
-  }, []);
+  //   checkAuth();
+  // }, []);
 
   useEffect(()=> {
     if (!titleRef.current || window.innerWidth < 768) return;
@@ -126,34 +129,35 @@ const PopularContent: React.FC = () => {
 
   const handleClick = (file: string, title: string, image: string) => {
     setSelectedFile({ file, title, image });
-    console.log('PopularContent: isAuthenticated on click:', isAuthenticated);
-    if (isAuthenticated) {
-      setIsDownloadModalOpen(true);
-    } else {
-      setIsModalOpen(true);
-    }
+    setIsComingSoonModalOpen(true);
+    // console.log('PopularContent: isAuthenticated on click:', isAuthenticated);
+    // if (isAuthenticated) {
+    //   setIsDownloadModalOpen(true);
+    // } else {
+    //   setIsModalOpen(true);
+    // }
   };
 
-  const handleEmailSubmit = async (email: string) => {
-    try {
-      const response = await fetch('/api/verify-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, origin: window.location.origin }),
-      });
+  // const handleEmailSubmit = async (email: string) => {
+  //   try {
+  //     const response = await fetch('/api/verify-email', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ email, origin: window.location.origin }),
+  //     });
 
-      if (!response.ok) {
-        throw new Error('Failed to send verification email');
-      }
+  //     if (!response.ok) {
+  //       throw new Error('Failed to send verification email');
+  //     }
 
-      // The modal will show the "Check your inbox" message
-    } catch (error) {
-      console.error(error);
-      // Optionally, you can show an error message to the user in the modal
-    }
-  };
+  //     // The modal will show the "Check your inbox" message
+  //   } catch (error) {
+  //     console.error(error);
+  //     // Optionally, you can show an error message to the user in the modal
+  //   }
+  // };
 
   const handleDownload = async (file: string, title: string) => {
     try {
@@ -180,6 +184,7 @@ const PopularContent: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setIsDownloadModalOpen(false);
+    setIsComingSoonModalOpen(false);
   };
 
   return (
@@ -240,7 +245,7 @@ const PopularContent: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onConfirm={handleEmailSubmit}
+        // onConfirm={handleEmailSubmit}
         title={selectedFile?.title || ''}
         svg={selectedFile?.image || ''}
       />
@@ -250,6 +255,10 @@ const PopularContent: React.FC = () => {
         onConfirm={handleDownloadConfirm}
         title={selectedFile?.title || ''}
         svg={selectedFile?.image || ''}
+      />
+      <ComingSoonModal
+        isOpen={isComingSoonModalOpen}
+        onClose={handleCloseModal}
       />
     </main>
   );

@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (email: string) => void;
+  onConfirm?: (email: string) => void;
   title: string;
   svg: string;
 }
@@ -51,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, svg })
   };
 
   const handleConfirm = () => {
-    if (email) {
+    if (email && onConfirm) {
       onConfirm(email);
       setIsSubmitted(true);
     }
